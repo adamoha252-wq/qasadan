@@ -237,3 +237,29 @@ FIXES DURING PHASE:
 
 Stage Summary:
 - No unresolved critical or blocking issues. Database restored to clean seeded state (6 services, 4 projects, 4 articles, 4 categories, 4 team, 3 testimonials, 2 inquiries).
+
+---
+Task ID: 9
+Agent: main (Super Z)
+Task: PHASE 9 — PRODUCTION PREPARATION (build, env vars, deployment docs — NO auto-deploy)
+
+Work Log:
+- next.config.ts: ignoreBuildErrors → false (production build now fails on type errors; tsc is clean)
+- PRODUCTION BUILD: `bun run build` SUCCEEDED (strict types, 30 routes generated, standalone output)
+- Standalone production server tested end-to-end on :3000:
+  * All routes: / 200, /portfolio 200, /portfolio/irrdo 200, /admin → 307 login redirect, robots 200, sitemap 200, 404 page 404
+  * Auth: login 200 + httpOnly cookie, admin dashboard 200 renders, logout 200
+  * Contact form 201
+  * Security headers present: nosniff, SAMEORIGIN, Referrer-Policy, Permissions-Policy, X-DNS-Prefetch
+  * (Note: sandbox process reaper kills the standalone server ~1-2 min after launch — all verifications completed within window; not an app issue)
+- layout.tsx: metadataBase added (silences OG resolution warning)
+- .env.example: documented DATABASE_URL (SQLite + Postgres variants), site URL
+- DEPLOYMENT.md: complete guide — Vercel steps, Supabase/Postgres migration (prisma provider swap + migrate + seed), admin password rotation procedure, storage adapter notes (Supabase Storage/S3 swap points), rate-limiter notes for serverless, custom domain DNS, post-deploy smoke tests
+- Dev server restored for preview after build testing
+
+Phase 9 pass condition:
+- Production build ✓, env vars documented ✓, auth redirects ✓ (prod-verified), storage config documented ✓, RLS-equivalent enforced ✓, public/admin routes ✓, migrations portable ✓, error handling ✓
+- DEPLOYMENT NOT EXECUTED — requires explicit human approval per project rules
+
+Stage Summary:
+- Project is production-ready; deployment instructions complete in DEPLOYMENT.md. No automatic deployment performed.

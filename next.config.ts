@@ -3,7 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "standalone",
   typescript: {
-    ignoreBuildErrors: true,
+    // Fail the production build on type errors (tsc is clean — keep it enforced)
+    ignoreBuildErrors: false,
   },
   reactStrictMode: false,
   async headers() {
