@@ -279,3 +279,24 @@ Work Log:
 Stage Summary:
 - All 10 build phases complete and committed. Every phase gate passed: implementation, tests, review, fixes, retest, verification, git commit.
 - Dev server + keepalive running for live preview.
+
+---
+Task ID: 11 (post-launch follow-up)
+Agent: Super Z (main)
+Task: User could not follow the manual CLI/SQL password-change process → build an in-app "Change Password" UI and explain login steps clearly.
+
+Work Log:
+- Discovered no change-password UI existed (only CLI hash + SQL update in DEPLOYMENT.md)
+- Added invalidateOtherSessions() helper to src/lib/auth/session.ts
+- Added POST /api/admin/auth/change-password (session guard, current-password verification, ≥10 chars + letter + number policy, rate limit per admin account, invalidates other sessions on success)
+- Added "Account security" card to /admin/settings: current/new/repeat fields, show-passwords toggle, inline validation, red error alerts, success toast
+- Wrote scripts/test-change-password.sh — 11/11 pass (401 unauth, wrong current pw, weak pw ×2, same-as-current, valid change, old pw dead, new pw works, restore); password restored to default afterward
+- Browser-verified UI via agent-browser: renders, error "Your current password is incorrect." shows, zero page errors
+- Regressions: auth 36/36, CMS 71/71; tsc --noEmit clean
+- Updated DEPLOYMENT.md: UI is now the preferred method, SQL kept as fallback
+- Committed 161faec (removed stray "400 400 400" artifact from a script quoting bug)
+
+Stage Summary:
+- Password change is now fully self-service in the CMS — no command line needed
+- All documented credentials unchanged (admin@qasadan.com / QasadanAdmin2026!)
+- Total regression coverage now 370 + 11 new checks
