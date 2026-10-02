@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/services" },
 };
 
+// CMS-driven content must always reflect the database
+export const dynamic = "force-dynamic";
+
 export default async function ServicesPage() {
   const [services, settings] = await Promise.all([
     getPublishedServices(),

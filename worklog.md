@@ -138,3 +138,30 @@ FIXES DURING PHASE:
 
 Stage Summary:
 - Complete public website live: 9 routes + 404, all content from DB, drafts protected, contact inquiries stored. Placeholders for images (by design) until Phase 6 storage.
+
+---
+Task ID: 5
+Agent: main (Super Z)
+Task: PHASE 5 — ADMIN CMS (dashboard + all content sections, full CRUD)
+
+Work Log:
+- Validation layer: src/lib/admin/schemas.ts (zod for services/projects/articles/categories/team/testimonials/inquiries/settings)
+- Server helpers: withAdmin() guard (401s), parseBody (400s), Prisma unique-violation → 409
+- Client helpers: apiFetch (auto-401 redirect), slugify
+- Admin UI kit: ui-bits.tsx (PageHeader, PublishBadge, InquiryStatusBadge, DeleteButton w/ AlertDialog, Loading/Error/Empty states), form-kit.tsx (Field, SwitchField, SelectField)
+- API routes (17, all requireAdmin-guarded): services, projects (+[id], +[id]/images PUT replace), articles (+[id]), categories (+[id], delete-guard 409 when in use), team (+[id]), testimonials (+[id]), inquiries (+[id] status PATCH), settings (GET/PUT whitelisted keys), stats
+- Admin pages (13): dashboard (live stats + recent inquiries + quick actions), services (dialog CRUD), portfolio (list + feature/publish toggles + delete) + portfolio/new + portfolio/[id] (full editor w/ gallery manager), news (list + publish toggle) + news/new + news/[id] (editor), news-categories (dialog CRUD + usage count), team (dialog CRUD), testimonials (card CRUD), inquiries (status filter + inline status change + delete), settings (contact/social forms)
+
+TESTS (all passed):
+- scripts/test-cms.ts: 71/71 — anonymous 401 on ALL 16 admin API endpoints; full CRUD per section; validation 400s; duplicate slug 409; deleted record 404; PROJECT WORKFLOW: draft hidden → publish visible → homepage feature → gallery images → unpublish hidden → delete; NEWS WORKFLOW: draft → publish visible → unpublish hidden → archive hidden → delete; CATEGORY guard 409; inquiry status persists; settings update reflects on public contact page; unknown setting keys ignored; stats
+- Browser E2E: login → dashboard (9 nav sections), services table, dialog create w/ toast, AlertDialog delete, portfolio table (IRRDO/Al-Huda w/ toggles), IRRDO editor fully populated, all 7 sections 200, VLM QA clean, zero console errors
+- tsc 0 errors, eslint clean
+
+FIXES DURING PHASE:
+- CRITICAL: detail pages statically cached → unpublish didn't hide content; all public DB-driven pages now force-dynamic (removed generateStaticParams)
+- Project model has no publishedAt (only NewsArticle) — removed invalid field access
+- zod v4: z.record requires (key, value) schemas
+- Sandbox reaper also kills keepalive → created .zscripts/ensure-dev.sh (relaunches dev server + keepalive on demand)
+
+Stage Summary:
+- Complete working CMS: every section CRUD + publish/feature/archive workflows + inquiry management + settings, all secured. Changes reflect on the public site immediately.

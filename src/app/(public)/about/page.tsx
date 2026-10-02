@@ -68,6 +68,9 @@ const milestones = [
   },
 ];
 
+// CMS-driven content must always reflect the database
+export const dynamic = "force-dynamic";
+
 export default async function AboutPage() {
   const testimonials = await getPublishedTestimonials();
 

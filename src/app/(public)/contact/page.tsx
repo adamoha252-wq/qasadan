@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
+// CMS-driven content must always reflect the database
+export const dynamic = "force-dynamic";
+
 export default async function ContactPage() {
   const settings = await getPublicSettings();
   const email = settings["contact.email"] || siteConfig.email;

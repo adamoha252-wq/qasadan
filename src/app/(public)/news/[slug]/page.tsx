@@ -13,10 +13,8 @@ import {
 
 type Props = { params: Promise<{ slug: string }> };
 
-export async function generateStaticParams() {
-  const articles = await getPublishedArticles();
-  return articles.map((a) => ({ slug: a.slug }));
-}
+// CMS-driven content must always reflect the database
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;

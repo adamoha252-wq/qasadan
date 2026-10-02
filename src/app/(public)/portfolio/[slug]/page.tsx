@@ -10,10 +10,8 @@ import { getPublishedProjectBySlug, getPublishedProjects } from "@/lib/data/publ
 
 type Props = { params: Promise<{ slug: string }> };
 
-export async function generateStaticParams() {
-  const projects = await getPublishedProjects();
-  return projects.map((p) => ({ slug: p.slug }));
-}
+// CMS-driven content must always reflect the database (publish/unpublish takes effect immediately)
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;

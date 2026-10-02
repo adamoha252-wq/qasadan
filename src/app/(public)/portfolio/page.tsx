@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/portfolio" },
 };
 
+// CMS-driven content must always reflect the database
+export const dynamic = "force-dynamic";
+
 export default async function PortfolioPage({
   searchParams,
 }: {

@@ -16,6 +16,9 @@ export const metadata: Metadata = {
 
 const PAGE_SIZE = 6;
 
+// CMS-driven content must always reflect the database
+export const dynamic = "force-dynamic";
+
 export default async function NewsPage({
   searchParams,
 }: {
