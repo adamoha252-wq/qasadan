@@ -54,3 +54,6 @@ server.log
 /skills/storage/
 storage/uploads/*
 !storage/uploads/.gitkeep
+
+# Workspace inbox (pasted screenshots etc.)
+upload/
