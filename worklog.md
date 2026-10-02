@@ -337,3 +337,18 @@ Work Log:
 Stage Summary:
 - Sandbox now runs fully on production Supabase (DB + Storage). Code on GitHub is deploy-ready.
 - NEXT: user imports repo in Vercel with 3 env vars → live URL → post-deploy checks → user changes prod admin password (prod DB was seeded with default; old sandbox password change did NOT carry over) → revoke PAT → optional custom domain
+
+---
+Task ID: 14 (Vercel deploy — user-guided, in progress)
+Agent: Super Z (main)
+Task: Guide non-technical user through Vercel import + env vars; pre-deploy repo hardening.
+
+Work Log:
+- Analyzed user screenshot (VLM): user landed on ACCOUNT-level "Environment Variables" overview page (Projects/Shared tabs, "No Project Environment Variables" empty state) — NOT the import/config screen with NAME/VALUE boxes; guidance rewritten for both paths (not-yet-imported vs already-imported)
+- Pre-deploy audit of repo for Vercel build success: bun.lock tracked (Vercel auto-detects bun) ✓; output:standalone is Vercel-safe ✓; build script's cp commands run fine on Linux builders ✓; public assets tracked ✓
+- CRITICAL GAP FIXED: no postinstall script → added "postinstall": "prisma generate" to package.json (top cause of Prisma first-build failures on Vercel); verified `bun run postinstall` succeeds; commit 52b19b9 pushed to GitHub main
+- Confirmed via grep the app needs exactly 3 env vars: DATABASE_URL (transaction pooler 6543 + pgbouncer=true + connection_limit=1), SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY; MEDIA_BUCKET defaults to "uploads" (bucket exists) — no 4th var needed
+- Sent user: correct-screen navigation (Path A: Add New → Project → import qasadan repo → env vars section; Path B: project Settings → Environment Variables → redeploy) + the 3 exact NAME/VALUE pairs
+
+Stage Summary:
+- Repo is Vercel-build-ready. Awaiting user to add env vars + deploy, then post-deploy smoke checks on the live URL, then: user changes prod admin password → revoke GitHub PAT → optional custom domain.
