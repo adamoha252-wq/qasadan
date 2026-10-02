@@ -6,8 +6,8 @@ designed so each infrastructure piece can be swapped to a managed service (Supab
 Neon, S3) with minimal code changes.
 
 > **Security first — before going live:**
-> 1. Change the default admin password (login at `/admin`, then update the hash via the
->    SQL snippet at the bottom of this document).
+> 1. Change the default admin password: sign in at `/admin/login`, open
+>    **Settings → Account security**, and set a new password (no command line needed).
 > 2. Set a strong, unique `DATABASE_URL`.
 > 3. Serve over HTTPS only (Vercel does this automatically).
 
@@ -87,6 +87,13 @@ provider needed. Production checklist:
 
 ### Rotate / change the admin password
 
+**Preferred (built-in UI):** sign in at `/admin/login`, go to **Settings →
+Account security**, and use the "Update password" form. Requirements: at least
+10 characters including a letter and a number. Changing the password also logs
+out all other devices.
+
+**Fallback (CLI, e.g. if you lost the password):**
+
 ```bash
 # Generate a new hash (runs scrypt):
 bun -e 'import {hashPassword} from "./src/lib/auth/password"; console.log(hashPassword("YOUR-NEW-PASSWORD"))'
@@ -132,8 +139,9 @@ curl -s -o /dev/null -w "%{http_code}\n" https://YOUR-DOMAIN/admin       # 307 r
 curl -s -o /dev/null -w "%{http_code}\n" https://YOUR-DOMAIN/api/admin/auth/me  # 401
 ```
 
-Then log in at `https://YOUR-DOMAIN/admin/login`, change the admin password,
-and update site settings (email/phone/socials) at `/admin/settings`.
+Then log in at `https://YOUR-DOMAIN/admin/login`, change the admin password
+(Settings → Account security), and update site settings (email/phone/socials)
+at `/admin/settings`.
 
 ---
 

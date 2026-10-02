@@ -99,3 +99,13 @@ export async function destroySession(): Promise<void> {
 export async function requireAdmin(): Promise<SessionUser | null> {
   return getSessionUser();
 }
+
+/**
+ * Deletes every session for the given user EXCEPT the provided token.
+ * Used after a password change so other devices are logged out.
+ */
+export async function invalidateOtherSessions(userId: string, keepToken: string): Promise<void> {
+  await db.session.deleteMany({
+    where: { userId, token: { not: keepToken } },
+  });
+}
