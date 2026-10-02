@@ -219,8 +219,15 @@ async function main() {
 
   // 12. Sensitive tables protected — passwordHash/session token never selected raw by public layer
   //     (structural guarantee: public data layer selects exclude these — enforced by code review + Phase 5 tests)
-  const inquiryExists = await db.inquiry.count();
-  check("Inquiries stored (admin-only visibility — tested in Phase 5)", inquiryExists === 2);
+  const inquiryCount = await db.inquiry.count();
+  const hasSeededInquiries =
+    (await db.inquiry.count({ where: { email: "ahmed.warsame@example.com" } })) === 1 &&
+    (await db.inquiry.count({ where: { email: "fatima.aden@example.org" } })) === 1;
+  check(
+    "Inquiries stored with seed data intact (admin-only visibility)",
+    inquiryCount >= 2 && hasSeededInquiries,
+    `count=${inquiryCount}`
+  );
 
   // 13. No unintended public access — placeholder structural check
   //     Public schema contains no views/procedures exposing drafts:
