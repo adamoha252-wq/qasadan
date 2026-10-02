@@ -4,6 +4,7 @@ import {
   storeUpload,
   deleteMediaFile,
   detectImageType,
+  isValidMediaUrl,
   ALLOWED_IMAGE_TYPES,
   MAX_UPLOAD_BYTES,
 } from "@/lib/storage";
@@ -62,7 +63,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
     }
     const url = typeof body.url === "string" ? body.url : "";
-    if (!url.startsWith("/api/media/")) {
+    if (!isValidMediaUrl(url)) {
       return NextResponse.json({ error: "Invalid media URL" }, { status: 400 });
     }
     const deleted = await deleteMediaFile(url);

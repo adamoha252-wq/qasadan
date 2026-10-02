@@ -5,14 +5,15 @@ import { randomUUID } from "crypto";
 import { generateId } from "@/lib/auth/password";
 
 /**
- * Local file storage — the Supabase-Storage-equivalent layer.
+ * Media storage layer with two interchangeable backends:
  *
- * "Buckets":
- *   storage/uploads/  → public read (served via /api/media/*), admin-only write
+ *   1. Supabase Storage (production / serverless) — enabled by setting
+ *      SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY (MEDIA_BUCKET optional, default "uploads").
+ *   2. Local disk (sandbox/dev) — storage/uploads/, served via /api/media/*.
  *
- * Security model:
+ * Security model (both backends):
  *   - Uploads: only through requireAdmin-guarded API (validated MIME + magic bytes + size)
- *   - Serving: path-traversal-proof, images only, immutable caching
+ *   - Serving: public read of image objects only; immutable caching
  *   - Deletion: admin-only, same guarded API
  */
 
@@ -54,20 +55,80 @@ const EXT_CONTENT_TYPE: Record<string, string> = {
   svg: "image/svg+xml",
 };
 
-/** Stores an uploaded image and returns its public URL (/api/media/...). */
+/** Returns the Supabase Storage backend config, or null when not configured (→ local disk). */
+function cloudConfig(): { url: string; key: string; bucket: string } | null {
+  const url = process.env.SUPABASE_URL?.trim().replace(/\/+$/, "");
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  if (url && key && /^https?:\/\//.test(url)) {
+    return { url, key, bucket: process.env.MEDIA_BUCKET?.trim() || "uploads" };
+  }
+  return null;
+}
+
+/** Diagnostics helper — which backend is active for this server. */
+export function storageMode(): "supabase" | "local" {
+  return cloudConfig() ? "supabase" : "local";
+}
+
+/** True when the URL is a media object this storage layer manages (local or cloud). */
+export function isValidMediaUrl(url: string): boolean {
+  if (url.startsWith("/api/media/")) return resolveMediaPath(url) !== null;
+  const cloud = cloudConfig();
+  if (cloud) {
+    return url.startsWith(`${cloud.url}/storage/v1/object/public/${cloud.bucket}/`);
+  }
+  return false;
+}
+
+/** Extracts the object path from a Supabase public media URL, or null. */
+function cloudObjectPath(url: string): string | null {
+  const cloud = cloudConfig();
+  if (!cloud) return null;
+  const prefix = `${cloud.url}/storage/v1/object/public/${cloud.bucket}/`;
+  if (!url.startsWith(prefix)) return null;
+  const rel = url.slice(prefix.length);
+  if (!rel || rel.includes("..") || rel.includes("\\") || rel.includes("//")) return null;
+  if (!/^[a-zA-Z0-9._\/-]+$/.test(rel)) return null;
+  return rel;
+}
+
+/** Stores an uploaded image and returns its public URL (Supabase URL or /api/media/...). */
 export async function storeUpload(bytes: Uint8Array, mimeType: string): Promise<string> {
   const spec = ALLOWED_IMAGE_TYPES[mimeType];
   if (!spec) throw new Error("Unsupported image type");
 
   const now = new Date();
   const month = String(now.getMonth() + 1).padStart(2, "0");
+  const objectPath = `${now.getFullYear()}/${month}/${randomUUID()}.${spec.ext}`;
+
+  const cloud = cloudConfig();
+  if (cloud) {
+    // Supabase Storage REST upload (service key bypasses RLS; this module is server-only)
+    const res = await fetch(
+      `${cloud.url}/storage/v1/object/${cloud.bucket}/${objectPath}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${cloud.key}`,
+          "Content-Type": mimeType,
+          "x-upsert": "false",
+        },
+        body: bytes as unknown as BodyInit,
+      }
+    );
+    if (!res.ok) {
+      const detail = await res.text().catch(() => "");
+      throw new Error(`Supabase Storage upload failed (${res.status}): ${detail.slice(0, 200)}`);
+    }
+    return `${cloud.url}/storage/v1/object/public/${cloud.bucket}/${objectPath}`;
+  }
+
+  // Local disk backend
   const dir = path.join(UPLOAD_ROOT, String(now.getFullYear()), month);
   await mkdir(dir, { recursive: true });
+  await writeFile(path.join(dir, path.basename(objectPath)), bytes);
 
-  const filename = `${randomUUID()}.${spec.ext}`;
-  await writeFile(path.join(dir, filename), bytes);
-
-  return `/api/media/${now.getFullYear()}/${month}/${filename}`;
+  return `/api/media/${now.getFullYear()}/${month}/${path.basename(objectPath)}`;
 }
 
 /**
@@ -104,6 +165,21 @@ export async function readMediaFile(absPath: string): Promise<Buffer> {
 
 /** Deletes a stored media file by its public URL (admin-only callers). */
 export async function deleteMediaFile(urlPath: string): Promise<boolean> {
+  // Cloud object? → Supabase Storage delete
+  const cloudObject = cloudObjectPath(urlPath);
+  if (cloudObject) {
+    const cloud = cloudConfig()!;
+    const res = await fetch(
+      `${cloud.url}/storage/v1/object/${cloud.bucket}/${cloudObject}`,
+      {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${cloud.key}` },
+      }
+    );
+    return res.ok;
+  }
+
+  // Otherwise: local disk file
   const resolved = resolveMediaPath(urlPath);
   if (!resolved) return false;
   try {

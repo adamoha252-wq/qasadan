@@ -44,20 +44,18 @@ Neon, S3) with minimal code changes.
 
 ### Option A — Supabase Postgres (closest to the original spec)
 
+> **Status: DONE in this repository** — the Prisma schema already uses
+> `provider = "postgresql"` and the production Supabase project is seeded.
+> Keep these steps as the reference for a fresh setup.
+
 1. Create a project at [supabase.com](https://supabase.com).
-2. Copy the **connection pooler** URI (port 6543, `pgbouncer=true`).
-3. In `prisma/schema.prisma` change:
-   ```prisma
-   datasource db {
-     provider = "postgresql"
-     url      = env("DATABASE_URL")
-   }
-   ```
+2. Copy the **connection pooler** URI (port 6543, `pgbouncer=true`) — IPv4-friendly.
+3. `prisma/schema.prisma` already has `provider = "postgresql"`.
 4. Run:
    ```bash
    bun install
-   bunx prisma migrate dev --name pg_init   # or `prisma db push` for first deploy
-   bun run db:seed                            # seed content + admin
+   bunx prisma db push
+   bun run db:seed
    ```
 5. Set `DATABASE_URL` in Vercel and deploy.
 
@@ -112,11 +110,20 @@ UPDATE AdminUser SET passwordHash = 'PASTE-HASH-HERE' WHERE email = 'admin@qasad
 Uploads live in `storage/uploads/**` and are served via `/api/media/*`
 (path-traversal-proof, MIME-validated, immutable caching).
 
-- **VPS/Docker**: works as-is on a persistent volume.
-- **Serverless**: replace the internals of `src/lib/storage.ts`
-  (`storeUpload`, `deleteMediaFile`, `resolveMediaPath`) with Supabase Storage or
-  S3 calls. Keep the same `/api/media/...` URL contract or switch to public
-  bucket URLs — the CMS stores whatever URL the upload endpoint returns.
+- **Serverless (Vercel) — built-in Supabase Storage support:** set these env
+  vars and uploads are stored in a Supabase Storage bucket instead of local
+  disk (the local disk is ephemeral on serverless):
+  - `SUPABASE_URL` — e.g. `https://<project-ref>.supabase.co`
+  - `SUPABASE_SERVICE_ROLE_KEY` — from Supabase → Settings → API
+  - `MEDIA_BUCKET` — optional, defaults to `uploads` (create it once in
+    Supabase → Storage → New bucket, **Public**)
+
+  The CMS stores whatever URL the upload endpoint returns — in cloud mode a
+  permanent Supabase public URL. Deletion of cloud objects is handled by the
+  same admin API. No code changes needed.
+- **VPS/Docker**: local-disk mode works as-is on a persistent volume.
+- **Other object stores (S3, R2)**: swap the internals of `src/lib/storage.ts`
+  (`storeUpload`, `deleteMediaFile`) keeping the same signatures.
 
 ---
 

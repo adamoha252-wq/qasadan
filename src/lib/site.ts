@@ -4,7 +4,8 @@ export const siteConfig = {
   tagline: "Web Development Agency",
   description:
     "QASADAN is a full-service web development agency crafting high-performance websites, web applications, and digital products for organizations across East Africa and beyond.",
-  url: "https://qasadan.com",
+  // Canonical URL — update when the custom domain is connected (see DEPLOYMENT.md §7)
+  url: "https://qasadan.vercel.app",
   email: "info@qasadan.com",
   phone: "+254 700 000 000",
   phoneHref: "+254700000000",
