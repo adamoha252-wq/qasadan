@@ -300,3 +300,22 @@ Stage Summary:
 - Password change is now fully self-service in the CMS — no command line needed
 - All documented credentials unchanged (admin@qasadan.com / QasadanAdmin2026!)
 - Total regression coverage now 370 + 11 new checks
+
+---
+Task ID: 12 (production deployment prep)
+Agent: Super Z (main)
+Task: Make the site production-live: GitHub repo, Supabase Postgres, Supabase Storage adapter, Vercel-ready code.
+
+Work Log:
+- User created GitHub repo adamoha252-wq/qasadan (private); PAT provided, code pushed (untracked .env first — no secrets leaked; ignore rule for upload/ added)
+- Supabase project: ref yrnmyrthjwvstmzxkzwf, region eu-west-1 (Ireland; discovered via pooler auth scan — direct db.* host is IPv6-only)
+- Prisma provider switched sqlite → postgresql; prisma db push + seed against session pooler (aws-0-eu-west-1.pooler.supabase.com:5432) — all content live in production DB
+- Shell/keepalive carried stale DATABASE_URL=file:... env → validation errors; fixed by relaunching keepalive with postgres env (root cause of dev-server restart loop)
+- Smoke test on Supabase DB: all public routes 200 (team page is /who-we-are), project slugs irrdo/al-huda-school 200, admin login OK (default password — user must change on prod), contact form write + cleanup OK
+- Built dual-backend storage.ts: Supabase Storage REST (env-driven: SUPABASE_URL/SUPABASE_SERVICE_ROLE_KEY/MEDIA_BUCKET) with local-disk fallback; isValidMediaUrl guards cloud+local deletes; upload route updated
+- site.ts canonical URL → https://qasadan.vercel.app (first deploy); .env.example + DEPLOYMENT.md (§2 §4) updated
+- Regressions: storage 34/34 (local fallback mode), tsc clean; commit 7f9a377 pushed
+
+Stage Summary:
+- Production DB live & seeded in Supabase Ireland; all code Vercel-ready on GitHub
+- NEXT: (1) user sends SUPABASE_SERVICE_ROLE_KEY → create public "uploads" bucket + test cloud upload E2E; (2) user imports repo in Vercel with 3 env vars (DATABASE_URL pooler 6543 + pgbouncer, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY); (3) verify qasadan.vercel.app domain, adjust site.ts if different; (4) user changes admin password on production; (5) revoke GitHub PAT
