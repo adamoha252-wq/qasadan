@@ -5,6 +5,18 @@ import { articleSchema } from "@/lib/admin/schemas";
 
 type Params = { params: Promise<{ id: string }> };
 
+export async function GET(_request: NextRequest, { params }: Params) {
+  return withAdmin(async () => {
+    const { id } = await params;
+    const article = await db.newsArticle.findUnique({
+      where: { id },
+      include: { category: true },
+    });
+    if (!article) return notFound("Article");
+    return NextResponse.json({ article });
+  });
+}
+
 export async function PATCH(request: NextRequest, { params }: Params) {
   return withAdmin(async () => {
     const { id } = await params;

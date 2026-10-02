@@ -5,6 +5,15 @@ import { serviceSchema } from "@/lib/admin/schemas";
 
 type Params = { params: Promise<{ id: string }> };
 
+export async function GET(_request: NextRequest, { params }: Params) {
+  return withAdmin(async () => {
+    const { id } = await params;
+    const service = await db.service.findUnique({ where: { id } });
+    if (!service) return notFound("Service");
+    return NextResponse.json({ service });
+  });
+}
+
 export async function PATCH(request: NextRequest, { params }: Params) {
   return withAdmin(async () => {
     const { id } = await params;

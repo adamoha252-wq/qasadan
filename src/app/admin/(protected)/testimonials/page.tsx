@@ -23,6 +23,7 @@ import {
   EmptyTableState,
 } from "@/components/admin/ui-bits";
 import { Field, TextInput, TextArea, SwitchField, SelectField } from "@/components/admin/form-kit";
+import { ImageUpload } from "@/components/admin/image-upload";
 
 type TestimonialRow = {
   id: string;
@@ -40,6 +41,7 @@ const emptyForm = {
   company: "",
   quote: "",
   rating: 5,
+  imageUrl: "",
   isPublished: true,
 };
 
@@ -86,6 +88,7 @@ export default function AdminTestimonialsPage() {
       company: row.company || "",
       quote: row.quote,
       rating: row.rating,
+      imageUrl: "",
       isPublished: row.isPublished,
     });
     setFormError(null);
@@ -234,6 +237,12 @@ export default function AdminTestimonialsPage() {
             <Field label="Quote" htmlFor="ts-quote" required>
               <TextArea id="ts-quote" rows={4} value={form.quote} onChange={(e) => setForm({ ...form, quote: e.target.value })} />
             </Field>
+            <ImageUpload
+              id="ts-image"
+              label="Client photo (optional)"
+              value={form.imageUrl}
+              onChange={(url) => setForm({ ...form, imageUrl: url })}
+            />
             <SwitchField
               id="ts-published"
               label="Published"

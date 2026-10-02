@@ -5,6 +5,15 @@ import { teamMemberSchema } from "@/lib/admin/schemas";
 
 type Params = { params: Promise<{ id: string }> };
 
+export async function GET(_request: NextRequest, { params }: Params) {
+  return withAdmin(async () => {
+    const { id } = await params;
+    const member = await db.teamMember.findUnique({ where: { id } });
+    if (!member) return notFound("Team member");
+    return NextResponse.json({ member });
+  });
+}
+
 export async function PATCH(request: NextRequest, { params }: Params) {
   return withAdmin(async () => {
     const { id } = await params;

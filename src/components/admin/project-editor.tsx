@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiFetch, slugify, ApiError } from "@/lib/admin/api";
 import { projectSchema } from "@/lib/admin/schemas";
 import { Field, TextInput, TextArea, SwitchField } from "@/components/admin/form-kit";
+import { ImageUpload } from "@/components/admin/image-upload";
 
 export type ProjectForm = {
   title: string;
@@ -289,21 +290,20 @@ export function ProjectEditor({
                   </Button>
                 </div>
               ))}
-              <div className="flex flex-col gap-2 rounded-xl border border-dashed border-slate-300 p-3 sm:flex-row sm:items-end">
-                <div className="grid flex-1 gap-2 sm:grid-cols-2">
-                  <TextInput
-                    aria-label="New image URL"
-                    placeholder="Image URL (upload available in Storage phase)"
-                    value={newImage.url}
-                    onChange={(e) => setNewImage({ ...newImage, url: e.target.value })}
-                  />
-                  <TextInput
-                    aria-label="New image caption"
-                    placeholder="Caption (optional)"
-                    value={newImage.caption}
-                    onChange={(e) => setNewImage({ ...newImage, caption: e.target.value })}
-                  />
-                </div>
+              <div className="flex flex-col gap-2 rounded-xl border border-dashed border-slate-300 p-3">
+                <ImageUpload
+                  id="gallery-add"
+                  label="Add gallery image"
+                  hint="Upload or paste a URL"
+                  value={newImage.url}
+                  onChange={(url) => setNewImage({ ...newImage, url })}
+                />
+                <TextInput
+                  aria-label="New image caption"
+                  placeholder="Caption (optional)"
+                  value={newImage.caption}
+                  onChange={(e) => setNewImage({ ...newImage, caption: e.target.value })}
+                />
                 <Button
                   variant="outline"
                   onClick={() => {
@@ -314,7 +314,7 @@ export function ProjectEditor({
                   className="border-cyan-300 text-cyan-700 hover:bg-cyan-50"
                 >
                   <Plus className="h-4 w-4" aria-hidden="true" />
-                  Add
+                  Add to gallery
                 </Button>
               </div>
             </div>
@@ -376,14 +376,13 @@ export function ProjectEditor({
                   placeholder="https://example.com"
                 />
               </Field>
-              <Field label="Cover image URL" htmlFor="pj-cover" hint="Shown on cards (optional)">
-                <TextInput
-                  id="pj-cover"
-                  value={form.coverImage}
-                  onChange={(e) => set("coverImage", e.target.value)}
-                  placeholder="/api/media/… or https://…"
-                />
-              </Field>
+              <ImageUpload
+                id="pj-cover"
+                label="Cover image"
+                hint="Shown on portfolio cards (JPEG/PNG/WebP, max 5MB)"
+                value={form.coverImage}
+                onChange={(url) => set("coverImage", url)}
+              />
               <Field label="Technologies" htmlFor="pj-tech" hint="Comma separated">
                 <TextInput
                   id="pj-tech"

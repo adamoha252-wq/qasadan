@@ -23,6 +23,7 @@ import {
   EmptyTableState,
 } from "@/components/admin/ui-bits";
 import { Field, TextInput, TextArea, SwitchField } from "@/components/admin/form-kit";
+import { ImageUpload } from "@/components/admin/image-upload";
 
 type TeamRow = {
   id: string;
@@ -249,10 +250,14 @@ export default function AdminTeamPage() {
             <Field label="Bio" htmlFor="tm-bio" hint="Short introduction (optional)">
               <TextArea id="tm-bio" rows={3} value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} />
             </Field>
+            <ImageUpload
+              id="tm-photo"
+              label="Photo"
+              hint="Square portrait works best"
+              value={form.imageUrl}
+              onChange={(url) => setForm({ ...form, imageUrl: url })}
+            />
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Photo URL" htmlFor="tm-photo" hint="Optional">
-                <TextInput id="tm-photo" value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} />
-              </Field>
               <Field label="Display order" htmlFor="tm-order">
                 <TextInput id="tm-order" type="number" min={0} value={form.order} onChange={(e) => setForm({ ...form, order: Number(e.target.value) })} />
               </Field>

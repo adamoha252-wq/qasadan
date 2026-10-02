@@ -165,3 +165,26 @@ FIXES DURING PHASE:
 
 Stage Summary:
 - Complete working CMS: every section CRUD + publish/feature/archive workflows + inquiry management + settings, all secured. Changes reflect on the public site immediately.
+
+---
+Task ID: 6
+Agent: main (Super Z)
+Task: PHASE 6 — STORAGE (image upload, serving, access control — Supabase-Storage equivalent)
+
+Work Log:
+- src/lib/storage.ts: local storage layer — storage/uploads bucket (yyyy/mm/uuid.ext), 5MB limit, allowlist (JPEG/PNG/WebP/GIF), MAGIC-BYTE sniffing (never trusts client MIME), SVG rejected (XSS vector), traversal-proof path resolution
+- API: POST /api/admin/upload (admin-only multipart upload), DELETE /api/admin/upload (admin-only file delete), GET /api/media/[...path] (public serving: correct Content-Type, immutable caching, nosniff, images only)
+- ImageUpload widget: upload button, live preview, Replace, Remove (deletes hosted file), manual URL entry — integrated into project editor (cover + gallery), article editor (cover), team dialog (photo), testimonial dialog (photo), services dialog (image)
+- .gitignore: storage/uploads/* (user data) with .gitkeep
+
+TESTS (all passed):
+- scripts/test-storage.ts: 34/34 — valid JPEG/PNG 201; fake PNG (text) 415; SVG 415 (XSS); oversized 413; public serving 200 + correct type + immutable cache + byte-identical; replacement new URL; admin delete → 404; anonymous upload/delete 401; SIX traversal attempts all 404; non-existent 404; portfolio cover + gallery display publicly; news cover displays; team photo displays; page survives broken image references; data restored after tests
+- Browser: news article editor loads (was broken — fixed missing GET), upload widget preview renders, zero console errors
+- tsc 0, eslint clean, public suite regression 55/55
+
+FIXES DURING PHASE:
+- REAL BUG caught by tests: GET /api/admin/articles/[id] missing (news editor 405) — added; also added GET to services/team/testimonials [id] routes for REST completeness
+- Test payloads had to convert DB rows (JSON-string arrays, ISO dates) to API shapes
+
+Stage Summary:
+- Storage works with secure policies: public read of uploaded images, admin-only write/delete, strict validation, traversal-proof. Supabase Storage migration path: swap src/lib/storage.ts internals for supabase-js storage calls (same URL contract /api/media/* can proxy or migrate to public bucket URLs).

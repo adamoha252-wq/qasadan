@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiFetch, slugify, ApiError } from "@/lib/admin/api";
 import { articleSchema } from "@/lib/admin/schemas";
 import { Field, TextInput, TextArea, SwitchField, SelectField } from "@/components/admin/form-kit";
+import { ImageUpload } from "@/components/admin/image-upload";
 
 export type ArticleForm = {
   title: string;
@@ -211,14 +212,13 @@ export function ArticleEditor({
                   placeholder="Select category"
                 />
               </Field>
-              <Field label="Cover image URL" htmlFor="art-cover" hint="Optional">
-                <TextInput
-                  id="art-cover"
-                  value={form.coverImage}
-                  onChange={(e) => set("coverImage", e.target.value)}
-                  placeholder="/api/media/… or https://…"
-                />
-              </Field>
+              <ImageUpload
+                id="art-cover"
+                label="Cover image"
+                hint="Shown on article cards"
+                value={form.coverImage}
+                onChange={(v) => set("coverImage", v)}
+              />
             </div>
           </section>
         </div>

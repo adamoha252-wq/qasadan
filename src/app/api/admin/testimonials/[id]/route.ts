@@ -5,6 +5,15 @@ import { testimonialSchema } from "@/lib/admin/schemas";
 
 type Params = { params: Promise<{ id: string }> };
 
+export async function GET(_request: NextRequest, { params }: Params) {
+  return withAdmin(async () => {
+    const { id } = await params;
+    const testimonial = await db.testimonial.findUnique({ where: { id } });
+    if (!testimonial) return notFound("Testimonial");
+    return NextResponse.json({ testimonial });
+  });
+}
+
 export async function PATCH(request: NextRequest, { params }: Params) {
   return withAdmin(async () => {
     const { id } = await params;

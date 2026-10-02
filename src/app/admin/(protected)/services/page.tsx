@@ -24,6 +24,7 @@ import {
   EmptyTableState,
 } from "@/components/admin/ui-bits";
 import { Field, TextInput, TextArea, SwitchField, SelectField } from "@/components/admin/form-kit";
+import { ImageUpload } from "@/components/admin/image-upload";
 
 type ServiceRow = {
   id: string;
@@ -293,6 +294,13 @@ export default function AdminServicesPage() {
                 />
               </Field>
             </div>
+            <ImageUpload
+              id="svc-image"
+              label="Service image (optional)"
+              hint="Optional illustration"
+              value={form.imageUrl}
+              onChange={(url) => setForm({ ...form, imageUrl: url })}
+            />
             <Field label="Features" htmlFor="svc-features" hint="One per line (max 12)">
               <TextArea
                 id="svc-features"
