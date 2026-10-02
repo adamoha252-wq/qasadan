@@ -115,7 +115,7 @@ async function main() {
   ];
   for (const attempt of bypassAttempts) {
     const res = await fetch(`${BASE}/api/admin/auth/me`, {
-      headers: attempt.headers as Record<string, string>,
+      headers: attempt.headers as unknown as Record<string, string>,
     });
     check("Auth bypass attempt rejected (401)", res.status === 401);
   }
