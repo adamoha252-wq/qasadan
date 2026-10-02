@@ -26,3 +26,33 @@ Stage Summary (Architecture & Risk Assessment):
 - SECURITY MODEL (RLS-equivalent): public = read-only published rows via server components; ALL mutations require requireAdmin() session check server-side; middleware guards /admin paths; storage via /api/media with traversal protection
 - RISKS: (1) sandbox forbids `next build` while dev server runs → verify via tsc --noEmit + lint + browser tests; (2) runtime uploads must live OUTSIDE public/ → /storage/uploads served via API route (portable to Supabase Storage); (3) placeholder User/Post models must be replaced without touching Z.ai scaffolding config
 - Assets: logo at upload/WhatsApp Image 2026-09-27 at 5.45.20 AM.jpeg (1080x1080 JPEG)
+
+---
+Task ID: 1
+Agent: main (Super Z)
+Task: PHASE 1 — PROJECT FOUNDATION (branding, logo, typography, header/footer/nav, UI components)
+
+Work Log:
+- Created QASADAN SVG logo mark (navy Q ring + gradient tail + pixel squares) at public/qasadan-mark.svg + src/app/icon.svg
+- globals.css: QASADAN theme — navy scale (navy-800 #0B1F3A primary), cyan accents (Tailwind cyan-500 #06B6D4), Inter body + Space Grotesk headings via next/font, pixel-grid utilities, container-site
+- src/lib/site.ts: site config (nav, contact, socials, tagline)
+- Components: logo.tsx (LogoMark + Logo w/ light variant), section-heading.tsx, header.tsx (sticky, desktop nav, mobile Sheet menu, active states, a11y), footer.tsx (4-col navy footer, socials, contact)
+- layout.tsx: fonts, QASADAN metadata + OG, sticky-footer flex layout, main#main-content
+- page.tsx: foundation homepage (hero, stats, services preview, CTA band) — replaced by DB-driven version in Phase 4
+- tsconfig.json: excluded examples/skills/mini-services/tests scaffold dirs from tsc (pre-existing errors there are not project code)
+
+TESTS (all passed):
+- Homepage HTTP 200, QASADAN branding + fonts in DOM
+- Computed styles verified: footer #0B1F3A, body Inter, h1 Space Grotesk
+- Desktop 1440px + mobile 390px screenshots VLM-reviewed: no defects, no overflow
+- Mobile Sheet menu: opens, links navigate, closes correctly
+- Zero console/page errors
+- tsc --noEmit EXIT 0; eslint clean
+- Production build: NOT run (sandbox forbids next build while dev server runs) — equivalent verification via tsc+lint+browser runtime
+
+FIXES DURING PHASE:
+- Turbopack served stale CSS after globals.css rewrite → clean dev-server restart with rm -rf .next (root cause: persistent cache). NOTE for future phases: restart dev server after major CSS/token changes.
+- Started dev server via: setsid nohup bash .zscripts/dev.sh (fully detached)
+
+Stage Summary:
+- Foundation stable; brand system in place. Known dev-only items: Next dev-tools badge, cross-origin preview warning (add allowedDevOrigins in Phase 9).
