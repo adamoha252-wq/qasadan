@@ -103,12 +103,14 @@ export async function storeUpload(bytes: Uint8Array, mimeType: string): Promise<
 
   const cloud = cloudConfig();
   if (cloud) {
-    // Supabase Storage REST upload (service key bypasses RLS; this module is server-only)
+    // Supabase Storage REST upload (service key bypasses RLS; this module is server-only).
+    // Both headers required: legacy JWTs and new sb_secret_ keys work with this pattern.
     const res = await fetch(
       `${cloud.url}/storage/v1/object/${cloud.bucket}/${objectPath}`,
       {
         method: "POST",
         headers: {
+          apikey: cloud.key,
           Authorization: `Bearer ${cloud.key}`,
           "Content-Type": mimeType,
           "x-upsert": "false",
@@ -173,7 +175,10 @@ export async function deleteMediaFile(urlPath: string): Promise<boolean> {
       `${cloud.url}/storage/v1/object/${cloud.bucket}/${cloudObject}`,
       {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${cloud.key}` },
+        headers: {
+          apikey: cloud.key,
+          Authorization: `Bearer ${cloud.key}`,
+        },
       }
     );
     return res.ok;
