@@ -30,6 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${article.title} | QASADAN News`,
       description: article.excerpt || article.title,
       type: "article",
+      images: [{ url: "/og-image.png", width: 1200, height: 630, alt: article.title }],
       ...(article.publishedAt && { publishedTime: new Date(article.publishedAt).toISOString() }),
     },
   };

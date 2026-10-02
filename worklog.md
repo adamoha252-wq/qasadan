@@ -188,3 +188,26 @@ FIXES DURING PHASE:
 
 Stage Summary:
 - Storage works with secure policies: public read of uploaded images, admin-only write/delete, strict validation, traversal-proof. Supabase Storage migration path: swap src/lib/storage.ts internals for supabase-js storage calls (same URL contract /api/media/* can proxy or migrate to public bucket URLs).
+
+---
+Task ID: 7
+Agent: main (Super Z)
+Task: PHASE 7 — SEO, ACCESSIBILITY AND PERFORMANCE
+
+Work Log:
+- Generated branded OG image (public/og-image.png, 1200x630, 60KB) via scripts/generate-og-image.mjs (sharp)
+- Root layout: OG/Twitter images wired with width/height/alt
+- Detail pages: og:image added to portfolio/news generateMetadata (page metadata overrides layout OG)
+- src/app/sitemap.ts: dynamic (static pages + published projects/articles, excludes drafts/admin/api), force-dynamic
+- src/app/robots.ts: allow /, disallow /admin + /api/, sitemap reference; REMOVED conflicting scaffold public/robots.txt (static file was overriding the route AND lacked admin disallow)
+- src/app/admin/layout.tsx: noindex for ALL admin routes incl. login
+- (public)/layout.tsx: skip-to-content link (sr-only, visible on focus)
+
+TESTS (all passed):
+- scripts/test-seo.ts: 86/86 — every public page 200 + title + meta description (≥70 chars) + canonical + OG + <3s; IRRDO/article dynamic titles + descriptions; sitemap correctness (published-only, no drafts/admin); robots rules; admin noindex; homepage dev-weight 435KB < 600KB ceiling (prod is ~2x smaller); OG image 60KB; lazy-loaded images; 4 pages parallel 342ms; security headers
+- Accessibility (browser DOM audits): 0 unlabeled inputs, 0 imgs without alt, 0 buttons without accessible names, proper heading hierarchy (single H1 → H2 → H3), landmarks (header/nav/main/footer/skip-link), lang=en, keyboard Tab navigation with VISIBLE outlines, color contrast 10.3:1–16.5:1 (WCAG AAA)
+- Mobile perf: DOMContentLoaded 658ms, 26 resources, 775KB dev-mode transfer, no horizontal overflow
+- tsc 0, eslint clean (converted og generator to ESM .mjs)
+
+Stage Summary:
+- SEO fully wired (titles/descriptions/canonicals/OG/Twitter/sitemap/robots/dynamic metadata), accessibility audit clean at AAA contrast levels, performance solid for dev mode (all pages <3s).

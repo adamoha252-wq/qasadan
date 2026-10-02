@@ -12,6 +12,13 @@ export default function PublicLayout({
 }) {
   return (
     <div className="flex min-h-screen flex-col">
+      {/* Skip link for keyboard users */}
+      <a
+        href="#main-content"
+        className="sr-only z-[60] m-2 rounded-lg bg-navy-800 px-4 py-2 text-sm font-semibold text-white focus:not-sr-only focus:absolute focus:left-2 focus:top-2"
+      >
+        Skip to main content
+      </a>
       <Header />
       <main id="main-content" className="flex-1">
         {children}

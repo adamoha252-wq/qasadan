@@ -27,6 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${project.title} | QASADAN Portfolio`,
       description: project.summary,
       type: "article",
+      images: [{ url: "/og-image.png", width: 1200, height: 630, alt: project.title }],
     },
   };
 }
