@@ -56,3 +56,22 @@ FIXES DURING PHASE:
 
 Stage Summary:
 - Foundation stable; brand system in place. Known dev-only items: Next dev-tools badge, cross-origin preview warning (add allowedDevOrigins in Phase 9).
+
+---
+Task ID: 2
+Agent: main (Super Z)
+Task: PHASE 2 — DATABASE (schema, migrations, seed, clients, RLS-equivalent access layer)
+
+Work Log:
+- prisma/schema.prisma: 11 models — AdminUser, Session, Service, Project, ProjectImage, NewsCategory, NewsArticle, TeamMember, Testimonial, Inquiry, SiteSetting (FKs w/ cascade+set-null, uniques on slug/email/token/key, composite indexes, timestamps; SQLite string-enums documented)
+- Migration: prisma/migrations/20261002064838_qasadan_init (placeholder empty User/Post tables replaced — verified 0 rows first, no data loss)
+- src/lib/auth/password.ts: scrypt hashing (N=16384, timing-safe compare), session token generator
+- scripts/seed.ts (idempotent upserts): admin@qasadan.com/QasadanAdmin2026!, 6 services, 4 projects (IRRDO + Al-Huda School featured+published, Waayo Studio published, Horn AgriTech draft), 4 categories, 4 articles (3 published + 1 draft), 4 team, 3 testimonials, 2 inquiries, 8 settings
+- scripts/verify-db.ts: full Phase 2 test suite → 50/50 PASSED (connection, 11 tables, PKs, FKs incl. cascade test, uniques, indexes, timestamps, published-only reads, admin verify, CRUD writes, no views, migration recorded, expired-session logic)
+- src/lib/data/public.ts: PUBLIC data-access layer (RLS-equivalent) — published-only, never selects passwordHash, cached via React cache; server-only guarded
+- src/lib/db.ts: prisma log level reduced to warn/error
+- package.json: db:seed + db:verify scripts
+- tsc --noEmit EXIT 0, eslint clean, homepage HTTP 200
+
+Stage Summary:
+- Database layer verified and secure by construction. Security model: public = published-only reads via lib/data/public.ts; writes = admin-guarded API routes only (Phase 3/5); inquiries admin-only.
