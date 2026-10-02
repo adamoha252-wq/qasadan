@@ -242,3 +242,5 @@ main().catch((e) => {
   console.error("❌ Test suite crashed:", e);
   process.exit(1);
 });
+
+export {};

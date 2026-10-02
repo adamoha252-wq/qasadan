@@ -105,3 +105,36 @@ FIXES DURING PHASE:
 
 Stage Summary:
 - Auth + authorization fully working: valid login, invalid/empty handling, logout, session expiry, protected routes, protected APIs, rate limiting, no data leaks. Admin default creds: admin@qasadan.com / QasadanAdmin2026!
+
+---
+Task ID: 4
+Agent: main (Super Z)
+Task: PHASE 4 — PUBLIC WEBSITE (all public routes wired to DB)
+
+Work Log:
+- Shared components: cards.tsx (ProjectCard/ArticleCard/ServiceCard/TeamCard/TestimonialCard + branded cover placeholders), icon.tsx (lucide registry), empty-state.tsx, contact-form.tsx (client, zod, success/error states), rich-text.tsx (react-markdown + .rich-text CSS)
+- Pages (all server components, DB-backed, per-page metadata + canonicals):
+  * / — hero, stats, featured projects (IRRDO + Al-Huda), services, testimonials, latest news, CTA
+  * /about — story, mission/vision, values, timeline, testimonials
+  * /who-we-are — team (DB), 4-step process, culture
+  * /services — all 6 active services from DB
+  * /portfolio — category filter via searchParams + empty states
+  * /portfolio/[slug] — case studies w/ meta strip, markdown content, gallery, sidebar, related projects; generateStaticParams + generateMetadata; drafts 404
+  * /news — category filter + pagination (6/page)
+  * /news/[slug] — article detail + related; drafts 404
+  * /contact — info cards (settings-driven) + working form
+- POST /api/contact — public write endpoint (zod, rate-limited, stores private Inquiry)
+- src/app/not-found.tsx — branded 404
+
+TESTS (all passed):
+- scripts/test-public.ts: 55/55 — every route 200, DB content verified (IRRDO/Al-Huda/services/team/testimonials/news), drafts hidden everywhere + 404 on direct access, category filters, empty states, branded 404, contact API (201 valid / 400 invalid / 400 malformed), admin still protected
+- Browser E2E: home→portfolio→IRRDO navigation, contact form submit → "Message sent" + DB record verified, empty-submit validation alerts, mobile 390px no overflow, VLM visual QA pass, zero console/page errors
+- tsc 0, eslint 0/0 (fixed 6 unused-disable warnings)
+
+FIXES DURING PHASE:
+- Test assertions needed HTML-entity escaping (&amp;) — site was correct, tests fixed
+- Test scripts needed `export {}` (TS global-scope collision across test files)
+- Dev server reaper: created .zscripts/keepalive.sh supervisor (auto-restart on death; verified working at 07:15:32 restart)
+
+Stage Summary:
+- Complete public website live: 9 routes + 404, all content from DB, drafts protected, contact inquiries stored. Placeholders for images (by design) until Phase 6 storage.
