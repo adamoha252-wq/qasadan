@@ -319,3 +319,21 @@ Work Log:
 Stage Summary:
 - Production DB live & seeded in Supabase Ireland; all code Vercel-ready on GitHub
 - NEXT: (1) user sends SUPABASE_SERVICE_ROLE_KEY → create public "uploads" bucket + test cloud upload E2E; (2) user imports repo in Vercel with 3 env vars (DATABASE_URL pooler 6543 + pgbouncer, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY); (3) verify qasadan.vercel.app domain, adjust site.ts if different; (4) user changes admin password on production; (5) revoke GitHub PAT
+
+---
+Task ID: 13 (cloud storage go-live)
+Agent: Super Z (main)
+Task: Enable Supabase Storage with user-provided service key; verify E2E; prep Vercel deploy.
+
+Work Log:
+- User provided sb_secret_ service key; discovered new-format keys require BOTH apikey + Authorization Bearer headers on Storage API (single Bearer → 403 Invalid Compact JWS)
+- Created public "uploads" bucket via Storage REST API; verified in bucket list
+- storage.ts: dual-header auth for upload + delete; .env gained SUPABASE_URL/SUPABASE_SERVICE_ROLE_KEY/MEDIA_BUCKET; keepalive relaunched in cloud mode
+- scripts/test-cloud-upload.sh E2E: login → upload (Supabase public URL returned) → anonymous fetch 200 image/png → admin delete 200 → origin list API confirms object removed (CDN edge-cache keeps public URL briefly — documented, expected); 6/6 pass
+- Scrubbed secret key from test script (reads env/.env); verified no secrets in tracked files; .env confirmed git-ignored
+- Commit 4c64ece pushed to GitHub
+- Vercel DATABASE_URL chosen: transaction pooler 6543 + pgbouncer=true + connection_limit=1 (Supabase serverless-Prisma recommendation)
+
+Stage Summary:
+- Sandbox now runs fully on production Supabase (DB + Storage). Code on GitHub is deploy-ready.
+- NEXT: user imports repo in Vercel with 3 env vars → live URL → post-deploy checks → user changes prod admin password (prod DB was seeded with default; old sandbox password change did NOT carry over) → revoke PAT → optional custom domain
