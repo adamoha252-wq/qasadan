@@ -75,3 +75,33 @@ Work Log:
 
 Stage Summary:
 - Database layer verified and secure by construction. Security model: public = published-only reads via lib/data/public.ts; writes = admin-guarded API routes only (Phase 3/5); inquiries admin-only.
+
+---
+Task ID: 3
+Agent: main (Super Z)
+Task: PHASE 3 — AUTHENTICATION (login, logout, sessions, protected routes, admin authorization)
+
+Work Log:
+- src/lib/auth/session.ts: DB-backed sessions + httpOnly cookie (qasadan_session, SameSite=Lax, secure-in-prod, 7-day TTL, sliding renewal at <2 days, expiry+isActive enforcement, requireAdmin() guard)
+- src/lib/auth/rate-limit.ts: in-memory limiter (8 attempts / 15 min per IP+email)
+- API: POST /api/admin/auth/login (zod validation, generic errors, no user enumeration, rate-limited, lastLoginAt update), POST /api/admin/auth/logout, GET /api/admin/auth/me
+- src/proxy.ts (Next 16 convention, replaces deprecated middleware): /admin/* cookie check → redirect /admin/login?next=...
+- src/app/admin/login/page.tsx: accessible client form (react-hook-form + zod, aria errors, loading state)
+- src/app/admin/(protected)/layout.tsx: server-side session guard (redirect) + AdminShell (navy sidebar, 9 nav sections, user footer, logout, mobile Sheet drawer, noindex metadata)
+- src/app/admin/(protected)/page.tsx: dashboard with live DB counts
+- Route groups: (public) layout gets Header/Footer; admin renders its own chrome (fixes login page showing public nav)
+- next.config.ts: security headers (nosniff, SAMEORIGIN, Referrer-Policy, Permissions-Policy) + no-store on /api/admin/*
+
+TESTS (all passed):
+- scripts/test-auth.ts: 36/36 — empty fields 400, invalid email 400, wrong password 401 generic, nonexistent email 401 generic, malformed JSON 400, /admin redirect w/ next param, API 401s, valid login 200 + httpOnly SameSite cookie, /me 200 correct user + no passwordHash leak, dashboard renders + noindex, forged token 401, expired session 401 + layout redirect, brute-force 429, logout clears cookie + invalidates session, cleanup
+- Browser E2E: /admin → login redirect, form login → dashboard, Sign Out → login, invalid login shows role=alert error, mobile 390px login + dashboard, VLM visual QA pass
+- tsc 0 errors, eslint clean
+
+FIXES DURING PHASE:
+- Browser login blocked by own rate-limiter (test suite poisoned localhost IP) → tests now use unique per-run x-forwarded-for IPs (198.51.100.x/203.0.113.x ranges)
+- Login page had public header/footer → route groups (public)/admin split
+- middleware.ts → proxy.ts (Next 16 deprecation)
+- Dev server died after restart once (cause unclear, no OOM) → restart procedure: setsid nohup bash .zscripts/dev.sh, wait for "running in background", avoid pkill -f "next dev" (matches own shell) — kill by PID instead
+
+Stage Summary:
+- Auth + authorization fully working: valid login, invalid/empty handling, logout, session expiry, protected routes, protected APIs, rate limiting, no data leaks. Admin default creds: admin@qasadan.com / QasadanAdmin2026!

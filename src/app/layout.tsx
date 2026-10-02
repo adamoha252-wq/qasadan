@@ -2,8 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import { Header } from "@/components/site/header";
-import { Footer } from "@/components/site/footer";
 import { siteConfig } from "@/lib/site";
 
 const inter = Inter({
@@ -70,14 +68,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} min-h-screen bg-background font-sans text-foreground antialiased`}
       >
-        <div className="flex min-h-screen flex-col">
-          <Header />
-          <main id="main-content" className="flex-1">
-            {children}
-          </main>
-          {/* Sticky footer: pushed down naturally when content overflows */}
-          <Footer />
-        </div>
+        {children}
         <Toaster />
       </body>
     </html>
