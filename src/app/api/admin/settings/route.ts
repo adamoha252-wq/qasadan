@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { withAdmin, parseBody } from "@/lib/admin/crud-helpers";
+import { withAdmin, withAdminR, parseBody } from "@/lib/admin/crud-helpers";
 import { settingsSchema } from "@/lib/admin/schemas";
 
 const SETTING_KEYS = [
@@ -23,7 +23,7 @@ export async function GET() {
 }
 
 export async function PUT(request: NextRequest) {
-  return withAdmin(async () => {
+  return withAdminR(async () => {
     const parsed = await parseBody(request, settingsSchema);
     if ("error" in parsed) return parsed.error;
 

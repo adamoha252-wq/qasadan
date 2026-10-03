@@ -13,8 +13,14 @@ import {
 
 type Props = { params: Promise<{ slug: string }> };
 
-// CMS-driven content must always reflect the database
-export const dynamic = "force-dynamic";
+// ISR: articles are cached and pre-built; new/updated articles appear
+// instantly after a CMS save (revalidatePath) or within 60s at most.
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const articles = await getPublishedArticles();
+  return articles.map((article) => ({ slug: article.slug }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;

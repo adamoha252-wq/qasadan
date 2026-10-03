@@ -31,8 +31,9 @@ const stats = [
   { value: "24/7", label: "Support & Maintenance" },
 ];
 
-// CMS-driven content must always reflect the database
-export const dynamic = "force-dynamic";
+// ISR: pages are cached on Vercel's global edge for fast delivery and
+// auto-refresh (max 60s) or instantly when content is saved in the admin CMS.
+export const revalidate = 60;
 
 export default async function HomePage() {
   const [services, featuredProjects, articles, testimonials] = await Promise.all([

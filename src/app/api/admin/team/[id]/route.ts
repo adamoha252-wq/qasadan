@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { withAdmin, parseBody, notFound } from "@/lib/admin/crud-helpers";
+import { withAdmin, withAdminR, parseBody, notFound } from "@/lib/admin/crud-helpers";
 import { teamMemberSchema } from "@/lib/admin/schemas";
 
 type Params = { params: Promise<{ id: string }> };
@@ -15,7 +15,7 @@ export async function GET(_request: NextRequest, { params }: Params) {
 }
 
 export async function PATCH(request: NextRequest, { params }: Params) {
-  return withAdmin(async () => {
+  return withAdminR(async () => {
     const { id } = await params;
     const parsed = await parseBody(request, teamMemberSchema);
     if ("error" in parsed) return parsed.error;
@@ -39,7 +39,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 }
 
 export async function DELETE(_request: NextRequest, { params }: Params) {
-  return withAdmin(async () => {
+  return withAdminR(async () => {
     const { id } = await params;
     const existing = await db.teamMember.findUnique({ where: { id } });
     if (!existing) return notFound("Team member");

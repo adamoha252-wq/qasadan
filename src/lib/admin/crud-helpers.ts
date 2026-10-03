@@ -2,21 +2,29 @@ import "server-only";
 import { NextRequest, NextResponse } from "next/server";
 import type { ZodType } from "zod";
 import { requireAdmin } from "@/lib/auth/session";
+import { revalidatePublicSite } from "@/lib/revalidate";
 
 /**
  * Shared helpers for admin API routes — the write-policy layer
  * (every mutation passes through withAdmin()).
+ *
+ * Pass { revalidate: true } on mutations that change public content so the
+ * cached public pages refresh immediately.
  */
-
 export async function withAdmin(
-  handler: () => Promise<NextResponse>
+  handler: () => Promise<NextResponse>,
+  opts?: { revalidate?: boolean }
 ): Promise<NextResponse> {
   const user = await requireAdmin();
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   try {
-    return await handler();
+    const response = await handler();
+    if (opts?.revalidate && response.status >= 200 && response.status < 300) {
+      revalidatePublicSite();
+    }
+    return response;
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Unexpected error";
     // Prisma unique constraint violation → friendly message
@@ -29,6 +37,14 @@ export async function withAdmin(
     console.error("[admin-api]", error);
     return NextResponse.json({ error: "Something went wrong." }, { status: 500 });
   }
+}
+
+/**
+ * Same as withAdmin(), but purges the cached public pages after a successful
+ * mutation — use for every handler that changes public-facing content.
+ */
+export function withAdminR(handler: () => Promise<NextResponse>) {
+  return withAdmin(handler, { revalidate: true });
 }
 
 export async function parseBody<T>(

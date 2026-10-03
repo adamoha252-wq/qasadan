@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { withAdmin, parseBody } from "@/lib/admin/crud-helpers";
+import { withAdmin, withAdminR, parseBody } from "@/lib/admin/crud-helpers";
 import { serviceSchema } from "@/lib/admin/schemas";
 
 export async function GET() {
@@ -13,7 +13,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  return withAdmin(async () => {
+  return withAdminR(async () => {
     const parsed = await parseBody(request, serviceSchema);
     if ("error" in parsed) return parsed.error;
 

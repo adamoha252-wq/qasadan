@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getPublishedProjects, getPublishedArticles } from "@/lib/data/public";
 import { siteConfig } from "@/lib/site";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteConfig.url;

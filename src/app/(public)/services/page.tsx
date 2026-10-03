@@ -15,8 +15,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/services" },
 };
 
-// CMS-driven content must always reflect the database
-export const dynamic = "force-dynamic";
+// ISR: cached for speed; auto-refreshes (max 60s) or instantly via the admin CMS.
+export const revalidate = 60;
 
 export default async function ServicesPage() {
   const [services, settings] = await Promise.all([
