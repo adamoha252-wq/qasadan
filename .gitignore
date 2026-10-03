@@ -50,10 +50,22 @@ test
 prompt
 
 server.log
-# Skills directory
-/skills/storage/
+
+# Z.ai sandbox scaffold (not part of the QASADAN site)
+skills/
+examples/
+mini-services/
+tests/
+tool-results/
+.zscripts/
+Caddyfile
+worklog.md
+
+# Local data (uploads bucket keeps its .gitkeep)
 storage/uploads/*
 !storage/uploads/.gitkeep
+db/
+download/
 
 # Workspace inbox (pasted screenshots etc.)
 upload/
