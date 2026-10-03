@@ -1,0 +1,58 @@
+[
+  {
+    "model": "project",
+    "slug": "irrdo",
+    "file": "project-irrdo.png",
+    "url": "https://yrnmyrthjwvstmzxkzwf.supabase.co/storage/v1/object/public/uploads/2026/10/80f96a7e-bd7c-424c-a99e-ccac9ec44852.webp",
+    "kb": 44
+  },
+  {
+    "model": "project",
+    "slug": "al-huda-school",
+    "file": "project-al-huda-school.png",
+    "url": "https://yrnmyrthjwvstmzxkzwf.supabase.co/storage/v1/object/public/uploads/2026/10/9ba1e798-7efa-431b-a435-64512da1e379.webp",
+    "kb": 58
+  },
+  {
+    "model": "project",
+    "slug": "waayo-studio",
+    "file": "project-waayo-studio.png",
+    "url": "https://yrnmyrthjwvstmzxkzwf.supabase.co/storage/v1/object/public/uploads/2026/10/63823d16-dbab-4a1e-91ab-fdb4f5b1a3dc.webp",
+    "kb": 51
+  },
+  {
+    "model": "project",
+    "slug": "horn-agritech",
+    "file": "project-horn-agritech.png",
+    "url": "https://yrnmyrthjwvstmzxkzwf.supabase.co/storage/v1/object/public/uploads/2026/10/1f4a6936-bf6a-4fe7-9d52-5dc078c2033c.webp",
+    "kb": 58
+  },
+  {
+    "model": "article",
+    "slug": "5-web-trends-east-african-businesses-2026",
+    "file": "article-web-trends-2026.png",
+    "url": "https://yrnmyrthjwvstmzxkzwf.supabase.co/storage/v1/object/public/uploads/2026/10/b35d7194-fd7e-4b62-897c-fdcec8c1626b.webp",
+    "kb": 67
+  },
+  {
+    "model": "article",
+    "slug": "how-we-built-al-huda-admissions",
+    "file": "article-al-huda-build.png",
+    "url": "https://yrnmyrthjwvstmzxkzwf.supabase.co/storage/v1/object/public/uploads/2026/10/179ec087-efee-4e89-b45e-28a3b9a4e7a8.webp",
+    "kb": 66
+  },
+  {
+    "model": "article",
+    "slug": "qasadan-guide-accessible-web-design",
+    "file": "article-accessible-design.png",
+    "url": "https://yrnmyrthjwvstmzxkzwf.supabase.co/storage/v1/object/public/uploads/2026/10/b5d8aff9-ee7e-4b71-ba9c-bc597fa27be0.webp",
+    "kb": 31
+  },
+  {
+    "model": "article",
+    "slug": "qasadan-opens-new-digital-lab-mogadishu",
+    "file": "article-digital-lab.png",
+    "url": "https://yrnmyrthjwvstmzxkzwf.supabase.co/storage/v1/object/public/uploads/2026/10/67b434da-f35d-488b-bd42-e14b9f8615fe.webp",
+    "kb": 91
+  }
+]
