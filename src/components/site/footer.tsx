@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Facebook, Twitter, Linkedin, Instagram, Github, Mail, Phone, MapPin } from "lucide-react";
+import { Facebook, Twitter, Linkedin, Instagram, Github, Mail, Phone, MapPin, MessageCircle } from "lucide-react";
 import { siteConfig } from "@/lib/site";
 import { Logo } from "@/components/site/logo";
 
@@ -99,6 +99,26 @@ export function Footer() {
                 className="text-sm text-navy-200 transition-colors hover:text-cyan-400"
               >
                 {siteConfig.phone}
+              </a>
+            </li>
+            <li className="flex items-start gap-3">
+              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" aria-hidden="true" />
+              <a
+                href={`tel:${siteConfig.phoneAltHref}`}
+                className="text-sm text-navy-200 transition-colors hover:text-cyan-400"
+              >
+                {siteConfig.phoneAlt}
+              </a>
+            </li>
+            <li className="flex items-start gap-3">
+              <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" aria-hidden="true" />
+              <a
+                href={siteConfig.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-navy-200 transition-colors hover:text-cyan-400"
+              >
+                WhatsApp — quick response
               </a>
             </li>
             <li className="flex items-start gap-3">

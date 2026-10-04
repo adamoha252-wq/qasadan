@@ -1,0 +1,3 @@
+module.exports=[18622,(a,b,c)=>{b.exports=a.x("next/dist/compiled/next-server/app-page-turbo.runtime.prod.js",()=>require("next/dist/compiled/next-server/app-page-turbo.runtime.prod.js"))},62213,a=>{"use strict";let b=(0,a.i(70106).default)("x",[["path",{d:"M18 6 6 18",key:"1bl5f8"}],["path",{d:"m6 6 12 12",key:"d8bk6v"}]]);a.s(["default",()=>b])},33508,a=>{"use strict";var b=a.i(62213);a.s(["X",()=>b.default])}];
+
+//# sourceMappingURL=%5Broot-of-the-server%5D__368a8a7a._.js.map

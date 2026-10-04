@@ -101,3 +101,36 @@ export type ArticleInput = z.infer<typeof articleSchema>;
 export type CategoryInput = z.infer<typeof categorySchema>;
 export type TeamMemberInput = z.infer<typeof teamMemberSchema>;
 export type TestimonialInput = z.infer<typeof testimonialSchema>;
+
+export const siteStatSchema = z.object({
+  value: z.string().trim().min(1, "Value is required").max(20),
+  label: z.string().trim().min(2, "Label is required").max(60),
+  order: z.number().int().min(0).max(99).default(0),
+  isActive: z.boolean().default(true),
+});
+
+export const pricingPlanSchema = z.object({
+  name: z.string().trim().min(2, "Plan name is required").max(60),
+  tagline: z.string().trim().max(120).optional().or(z.literal("")),
+  price: z.string().trim().min(1, "Price is required").max(30),
+  period: z.string().trim().min(1).max(30).default("per project"),
+  features: z.array(z.string().trim().min(1).max(120)).max(12).default([]),
+  isFeatured: z.boolean().default(false),
+  ctaLabel: z.string().trim().min(2).max(40).default("Choose Plan"),
+  order: z.number().int().min(0).max(99).default(0),
+  isActive: z.boolean().default(true),
+});
+
+export const partnerSchema = z.object({
+  name: z.string().trim().min(2, "Partner name is required").max(120),
+  category: z.string().trim().max(60).optional().or(z.literal("")),
+  logoUrl: z.string().trim().max(500).optional().or(z.literal("")),
+  websiteUrl: z.string().trim().url("Enter a valid URL").max(300).optional().or(z.literal("")),
+  order: z.number().int().min(0).max(99).default(0),
+  isActive: z.boolean().default(true),
+});
+
+export type SiteStatInput = z.infer<typeof siteStatSchema>;
+export type PricingPlanInput = z.infer<typeof pricingPlanSchema>;
+export type PartnerInput = z.infer<typeof partnerSchema>;
+

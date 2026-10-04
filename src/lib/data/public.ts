@@ -191,7 +191,8 @@ export const getPublishedTestimonials = cache(async (): Promise<PublicTestimonia
 // ---------- Site settings (public-safe keys only) ----------
 
 const PUBLIC_SETTING_KEYS = [
-  "contact.email", "contact.phone", "contact.address",
+  "contact.email", "contact.phone", "contact.phoneAlt", "contact.whatsapp",
+  "contact.address",
   "social.facebook", "social.twitter", "social.linkedin", "social.instagram",
   "site.tagline",
 ] as const;
@@ -202,4 +203,63 @@ export const getPublicSettings = cache(async (): Promise<Record<string, string>>
     select: { key: true, value: true },
   });
   return Object.fromEntries(rows.map((r) => [r.key, r.value]));
+});
+
+// ---------- Site stats (hero numbers, admin-editable) ----------
+
+export type PublicSiteStat = {
+  id: string;
+  value: string;
+  label: string;
+};
+
+export const getSiteStats = cache(async (): Promise<PublicSiteStat[]> => {
+  return db.siteStat.findMany({
+    where: { isActive: true },
+    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    select: { id: true, value: true, label: true },
+  });
+});
+
+// ---------- Pricing plans (admin-editable) ----------
+
+export type PublicPricingPlan = {
+  id: string;
+  name: string;
+  tagline: string | null;
+  price: string;
+  period: string;
+  features: string[];
+  isFeatured: boolean;
+  ctaLabel: string;
+};
+
+export const getPricingPlans = cache(async (): Promise<PublicPricingPlan[]> => {
+  const rows = await db.pricingPlan.findMany({
+    where: { isActive: true },
+    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    select: {
+      id: true, name: true, tagline: true, price: true, period: true,
+      features: true, isFeatured: true, ctaLabel: true,
+    },
+  });
+  return rows.map((r) => ({ ...r, features: parseJsonArray(r.features) }));
+});
+
+// ---------- Partners / clients (admin-editable) ----------
+
+export type PublicPartner = {
+  id: string;
+  name: string;
+  category: string | null;
+  logoUrl: string | null;
+  websiteUrl: string | null;
+};
+
+export const getPartners = cache(async (): Promise<PublicPartner[]> => {
+  return db.partner.findMany({
+    where: { isActive: true },
+    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    select: { id: true, name: true, category: true, logoUrl: true, websiteUrl: true },
+  });
 });

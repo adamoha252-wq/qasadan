@@ -7,8 +7,12 @@ export const siteConfig = {
   // Canonical URL — update when the custom domain is connected (see DEPLOYMENT.md §7)
   url: "https://qasadan.vercel.app",
   email: "info@qasadan.com",
-  phone: "+254 700 000 000",
-  phoneHref: "+254700000000",
+  phone: "+252 612 307 888",
+  phoneHref: "+252612307888",
+  phoneAlt: "+212 617 734 376",
+  phoneAltHref: "+212617734376",
+  whatsapp: "252612307888",
+  whatsappHref: "https://wa.me/252612307888",
   address: "Mogadishu, Somalia",
   mainNav: [
     { title: "Home", href: "/" },

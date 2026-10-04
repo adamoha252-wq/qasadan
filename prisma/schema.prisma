@@ -176,6 +176,55 @@ model Inquiry {
   @@index([status, createdAt])
 }
 
+// ============ SITE STATS (hero numbers, admin-editable) ============
+
+model SiteStat {
+  id        String   @id @default(cuid())
+  value     String // e.g. "50+", "24/7", "98%"
+  label     String // e.g. "Projects Delivered"
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive, order])
+}
+
+// ============ PRICING PLANS (admin-editable) ============
+
+model PricingPlan {
+  id         String   @id @default(cuid())
+  name       String // Starter / Professional / Enterprise
+  tagline    String? // short description under the name
+  price      String // e.g. "$299" or "Custom"
+  period     String   @default("per project")
+  features   String   @default("[]") // JSON-encoded string[] (included items)
+  isFeatured Boolean  @default(false) // "Most Popular" highlight
+  ctaLabel   String   @default("Choose Plan")
+  order      Int      @default(0)
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([isActive, order])
+}
+
+// ============ PARTNERS / CLIENTS (admin-editable) ============
+
+model Partner {
+  id         String   @id @default(cuid())
+  name       String
+  category   String? // e.g. "Education", "NGO", "Government"
+  logoUrl    String?
+  websiteUrl String?
+  order      Int      @default(0)
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([isActive, order])
+}
+
 // ============ SITE SETTINGS ============
 
 model SiteSetting {

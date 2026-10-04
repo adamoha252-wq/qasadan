@@ -1,8 +1,11 @@
 import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
+import { TopBar } from "@/components/site/top-bar";
+import { WhatsAppFloat } from "@/components/site/whatsapp-float";
 
 /**
- * Public website layout — header, main content, sticky footer.
+ * Public website layout — top utility bar, header, main content, sticky
+ * footer, and the floating WhatsApp action button.
  * (Admin routes live outside this group and render their own chrome.)
  */
 export default function PublicLayout({
@@ -19,12 +22,14 @@ export default function PublicLayout({
       >
         Skip to main content
       </a>
+      <TopBar />
       <Header />
       <main id="main-content" className="flex-1">
         {children}
       </main>
       {/* Sticky footer: pushed down naturally when content overflows */}
       <Footer />
+      <WhatsAppFloat />
     </div>
   );
 }

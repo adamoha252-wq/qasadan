@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, Phone, MapPin, Clock, Globe } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Globe, MessageCircle } from "lucide-react";
 import { SectionHeading } from "@/components/site/section-heading";
 import { ContactForm } from "@/components/site/contact-form";
 import { getPublicSettings } from "@/lib/data/public";
@@ -20,6 +20,9 @@ export default async function ContactPage() {
   const email = settings["contact.email"] || siteConfig.email;
   const phone = settings["contact.phone"] || siteConfig.phone;
   const phoneHref = phone.replace(/[^+\d]/g, "");
+  const phoneAlt = settings["contact.phoneAlt"] || siteConfig.phoneAlt;
+  const phoneAltHref = phoneAlt.replace(/[^+\d]/g, "");
+  const whatsapp = settings["contact.whatsapp"] || siteConfig.whatsapp;
   const address = settings["contact.address"] || siteConfig.address;
 
   return (
@@ -83,6 +86,32 @@ export default async function ContactPage() {
                       className="text-sm font-medium text-navy-800 transition-colors hover:text-cyan-700"
                     >
                       {phone}
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Phone className="mt-0.5 h-5 w-5 shrink-0 text-cyan-600" aria-hidden="true" />
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Phone (alt)</p>
+                    <a
+                      href={`tel:${phoneAltHref}`}
+                      className="text-sm font-medium text-navy-800 transition-colors hover:text-cyan-700"
+                    >
+                      {phoneAlt}
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <MessageCircle className="mt-0.5 h-5 w-5 shrink-0 text-[#25D366]" aria-hidden="true" />
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">WhatsApp</p>
+                    <a
+                      href={`https://wa.me/${whatsapp}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-medium text-navy-800 transition-colors hover:text-[#1DA851]"
+                    >
+                      Chat with us — quick response
                     </a>
                   </div>
                 </li>

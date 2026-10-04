@@ -16,6 +16,9 @@ import {
   LogOut,
   Menu,
   ExternalLink,
+  TrendingUp,
+  BadgeDollarSign,
+  Handshake,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,6 +41,9 @@ export const adminNav = [
   { title: "Categories", href: "/admin/news-categories", icon: Tags },
   { title: "Team", href: "/admin/team", icon: Users },
   { title: "Testimonials", href: "/admin/testimonials", icon: MessageSquareQuote },
+  { title: "Hero Stats", href: "/admin/site-stats", icon: TrendingUp },
+  { title: "Pricing Plans", href: "/admin/pricing", icon: BadgeDollarSign },
+  { title: "Partners", href: "/admin/partners", icon: Handshake },
   { title: "Inquiries", href: "/admin/inquiries", icon: Inbox },
   { title: "Settings", href: "/admin/settings", icon: Settings },
 ] as const;

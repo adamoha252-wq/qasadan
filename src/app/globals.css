@@ -57,6 +57,17 @@
   --color-navy-800: #0B1F3A;
   --color-navy-900: #081729;
   --color-navy-950: #050F1D;
+  /* Royal-blue action palette (inspired by modern ICT brand sites) */
+  --color-brand-50: #EEF6FF;
+  --color-brand-100: #D9EAFF;
+  --color-brand-200: #BCDDFF;
+  --color-brand-300: #8EC7FF;
+  --color-brand-400: #59A6FF;
+  --color-brand-500: #3387FF;
+  --color-brand-600: #0066CC;
+  --color-brand-700: #0052A3;
+  --color-brand-800: #074584;
+  --color-brand-900: #0D3D6E;
 }
 
 :root {
@@ -187,4 +198,132 @@
   padding: 0.5rem 0 0.5rem 1rem;
   color: #475569;
   font-style: italic;
+}
+
+/* ============ ANIMATION SYSTEM (eye-catching UI/UX motion) ============ */
+
+/* Scroll-reveal base states — the <Reveal> component toggles .is-visible */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.reveal-item.reveal-left {
+  transform: translateX(-32px);
+}
+.reveal-item.reveal-right {
+  transform: translateX(32px);
+}
+.reveal-item.reveal-zoom {
+  transform: scale(0.94);
+}
+.reveal-item.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Floating / breathing ambient motion (hero blobs, decorative shapes) */
+@keyframes float-slow {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(0, -22px, 0) scale(1.05); }
+}
+.animate-float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+.animate-float-slower {
+  animation: float-slow 11s ease-in-out infinite;
+}
+
+/* Soft pulsing glow (WhatsApp float, badges) */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.45); }
+  70% { box-shadow: 0 0 0 16px rgba(37, 211, 102, 0); }
+}
+.animate-glow-pulse {
+  animation: glow-pulse 2.4s ease-out infinite;
+}
+
+/* Gradient shimmer sweep for "Most Popular" / featured cards */
+@keyframes shimmer-sweep {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.animate-shimmer {
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.14) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: shimmer-sweep 3.2s linear infinite;
+}
+
+/* Card lift on hover (used with tailwind hover: variants) */
+.card-lift {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s;
+}
+.card-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -18px rgba(11, 31, 58, 0.28);
+}
+
+/* Slow spin for decorative rings */
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 24s linear infinite;
+}
+
+/* Marquee for partner logo strip */
+@keyframes marquee-x {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee-x 30s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Gradient text helper (hero headlines) */
+.text-gradient-cyan {
+  background: linear-gradient(92deg, #67e8f9 0%, #22d3ee 45%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Hero gradient canvas — deep navy → royal blue (135deg like reference sites) */
+.bg-hero-gradient {
+  background:
+    radial-gradient(1000px 500px at 85% -10%, rgba(0, 102, 204, 0.35), transparent 60%),
+    radial-gradient(700px 420px at -10% 110%, rgba(34, 211, 238, 0.18), transparent 55%),
+    linear-gradient(135deg, #081729 0%, #0B1F3A 45%, #0E3A75 100%);
+}
+
+/* Dark section gradient (services band) */
+.bg-dark-band {
+  background:
+    radial-gradient(800px 400px at 100% 0%, rgba(0, 102, 204, 0.22), transparent 60%),
+    radial-gradient(600px 380px at 0% 100%, rgba(6, 182, 212, 0.14), transparent 55%),
+    linear-gradient(155deg, #050F1D 0%, #0B1F3A 50%, #0A2A54 100%);
+}
+
+/* Light section gradient (mission/values band) */
+.bg-light-band {
+  background: linear-gradient(160deg, #F0F7FF 0%, #FFFFFF 55%, #F0F5FA 100%);
 }

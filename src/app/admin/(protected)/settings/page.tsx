@@ -12,7 +12,9 @@ type SettingsMap = Record<string, string>;
 
 const SETTING_FIELDS: { key: string; label: string; hint?: string; type?: string }[] = [
   { key: "contact.email", label: "Contact email", hint: "Shown on the contact page and footer" },
-  { key: "contact.phone", label: "Contact phone" },
+  { key: "contact.phone", label: "Contact phone", hint: "Primary number, e.g. +252 612 307 888" },
+  { key: "contact.phoneAlt", label: "Second phone", hint: "Optional alternate number" },
+  { key: "contact.whatsapp", label: "WhatsApp number", hint: "Digits only with country code, e.g. 252612307888" },
   { key: "contact.address", label: "Office address" },
   { key: "site.tagline", label: "Site tagline" },
   { key: "social.facebook", label: "Facebook URL", type: "url" },
