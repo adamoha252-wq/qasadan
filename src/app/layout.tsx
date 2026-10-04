@@ -16,6 +16,15 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
+/** Media CDN origin (Supabase Storage) — preconnected so cover images start loading immediately. */
+const mediaOrigin = (() => {
+  try {
+    return process.env.SUPABASE_URL ? new URL(process.env.SUPABASE_URL).origin : null;
+  } catch {
+    return null;
+  }
+})();
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
@@ -78,6 +87,13 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} min-h-screen bg-background font-sans text-foreground antialiased`}
       >
+        {/* Warm up the image CDN connection (React hoists these into <head>) */}
+        {mediaOrigin && (
+          <>
+            <link rel="preconnect" href={mediaOrigin} />
+            <link rel="dns-prefetch" href={mediaOrigin} />
+          </>
+        )}
         {children}
         <Toaster />
       </body>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { ProjectCard } from "@/components/site/cards";
 import { EmptyState } from "@/components/site/empty-state";
-import type { PublicProject } from "@/lib/data/public";
+import type { PublicProjectCard } from "@/lib/data/public";
 import { cn } from "@/lib/utils";
 
 /**
@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
  * statically cached (ISR) with all projects embedded; filtering by category
  * happens instantly in the browser with no server round-trip.
  */
-export function PortfolioBrowser({ projects }: { projects: PublicProject[] }) {
+export function PortfolioBrowser({ projects }: { projects: PublicProjectCard[] }) {
   const searchParams = useSearchParams();
   const category = searchParams.get("category") || undefined;
 

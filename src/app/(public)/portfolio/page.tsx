@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { PortfolioBrowser } from "@/components/site/portfolio-browser";
-import { getPublishedProjects } from "@/lib/data/public";
+import { getPublishedProjectCards } from "@/lib/data/public";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function PortfolioPage() {
-  const projects = await getPublishedProjects();
+  const projects = await getPublishedProjectCards();
 
   return (
     <>

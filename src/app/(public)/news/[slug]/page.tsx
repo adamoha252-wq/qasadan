@@ -8,7 +8,7 @@ import { RichText } from "@/components/site/rich-text";
 import { ArticleCard, formatDate } from "@/components/site/cards";
 import {
   getPublishedArticleBySlug,
-  getPublishedArticles,
+  getPublishedArticleCards,
 } from "@/lib/data/public";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -18,7 +18,7 @@ type Props = { params: Promise<{ slug: string }> };
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-  const articles = await getPublishedArticles();
+  const articles = await getPublishedArticleCards();
   return articles.map((article) => ({ slug: article.slug }));
 }
 
@@ -50,7 +50,7 @@ export default async function ArticleDetailPage({ params }: Props) {
     notFound();
   }
 
-  const all = await getPublishedArticles();
+  const all = await getPublishedArticleCards();
   const related = all
     .filter((a) => a.slug !== article.slug)
     .filter((a) => !article.category || a.category?.id === article.category.id)

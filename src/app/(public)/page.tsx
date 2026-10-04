@@ -15,8 +15,8 @@ import { Reveal } from "@/components/site/reveal";
 import { ProjectCard, ArticleCard, TestimonialCard } from "@/components/site/cards";
 import {
   getPublishedServices,
-  getPublishedProjects,
-  getPublishedArticles,
+  getPublishedProjectCards,
+  getPublishedArticleCards,
   getPublishedTestimonials,
   getActiveTeamMembers,
   getSiteStats,
@@ -47,8 +47,8 @@ export default async function HomePage() {
     partners,
   ] = await Promise.all([
     getPublishedServices(),
-    getPublishedProjects(),
-    getPublishedArticles(2),
+    getPublishedProjectCards(),
+    getPublishedArticleCards(2),
     getPublishedTestimonials(),
     getActiveTeamMembers(),
     getSiteStats(),

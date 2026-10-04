@@ -5,3 +5,6 @@ node_modules/
 .env*.local
 dev.log
 server.log
+.next/
+tsconfig.tsbuildinfo
+fg*.log

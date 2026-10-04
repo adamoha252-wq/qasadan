@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RichText } from "@/components/site/rich-text";
 import { CoverPlaceholder, ExternalLinkRow, formatDate } from "@/components/site/cards";
-import { getPublishedProjectBySlug, getPublishedProjects } from "@/lib/data/public";
+import { getPublishedProjectBySlug, getPublishedProjectCards } from "@/lib/data/public";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -15,7 +15,7 @@ type Props = { params: Promise<{ slug: string }> };
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-  const projects = await getPublishedProjects();
+  const projects = await getPublishedProjectCards();
   return projects.map((project) => ({ slug: project.slug }));
 }
 
@@ -46,7 +46,7 @@ export default async function ProjectDetailPage({ params }: Props) {
     notFound();
   }
 
-  const all = await getPublishedProjects();
+  const all = await getPublishedProjectCards();
   const others = all.filter((p) => p.slug !== project.slug).slice(0, 2);
 
   return (

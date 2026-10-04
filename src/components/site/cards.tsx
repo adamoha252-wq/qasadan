@@ -6,7 +6,9 @@ import { LogoMark } from "@/components/site/logo";
 import { ServiceIcon } from "@/components/site/icon";
 import type {
   PublicArticle,
+  PublicArticleCard,
   PublicProject,
+  PublicProjectCard,
   PublicService,
   PublicTeamMember,
   PublicTestimonial,
@@ -36,7 +38,7 @@ export function CoverPlaceholder({ label }: { label: string }) {
   );
 }
 
-export function ProjectCard({ project }: { project: PublicProject }) {
+export function ProjectCard({ project }: { project: PublicProjectCard }) {
   return (
     <Card className="ab-card group flex h-full flex-col overflow-hidden p-0 transition-shadow hover:shadow-lg">
       <Link href={`/portfolio/${project.slug}`} className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500">
@@ -94,7 +96,7 @@ export function ProjectCard({ project }: { project: PublicProject }) {
   );
 }
 
-export function ArticleCard({ article }: { article: PublicArticle }) {
+export function ArticleCard({ article }: { article: PublicArticleCard }) {
   return (
     <Card className="ab-card group flex h-full flex-col overflow-hidden p-0 transition-shadow hover:shadow-lg">
       <Link href={`/news/${article.slug}`} className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500">

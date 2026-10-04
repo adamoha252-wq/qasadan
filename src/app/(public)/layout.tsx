@@ -2,6 +2,7 @@ import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
 import { TopBar } from "@/components/site/top-bar";
 import { WhatsAppFloat } from "@/components/site/whatsapp-float";
+import { AnimGovernor } from "@/components/site/anim-governor";
 
 /**
  * Public website layout — top utility bar, header, main content, sticky
@@ -30,6 +31,8 @@ export default function PublicLayout({
       {/* Sticky footer: pushed down naturally when content overflows */}
       <Footer />
       <WhatsAppFloat />
+      {/* Pauses off-screen decorative animations (performance) */}
+      <AnimGovernor />
     </div>
   );
 }

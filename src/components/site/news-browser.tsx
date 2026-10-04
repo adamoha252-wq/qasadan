@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ArticleCard } from "@/components/site/cards";
 import { EmptyState } from "@/components/site/empty-state";
-import type { PublicArticle } from "@/lib/data/public";
+import type { PublicArticleCard } from "@/lib/data/public";
 import { cn } from "@/lib/utils";
 
 const PAGE_SIZE = 6;
@@ -21,7 +21,7 @@ export function NewsBrowser({
   articles,
   categories,
 }: {
-  articles: PublicArticle[];
+  articles: PublicArticleCard[];
   categories: NewsCategory[];
 }) {
   const searchParams = useSearchParams();

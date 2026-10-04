@@ -125,6 +125,44 @@ export const getPublishedProjectBySlug = cache(
   }
 );
 
+// ---------- Card projections (listings) ----------
+// Listing pages (home, /portfolio, /news) only render cards — they never need
+// the full markdown `content` or image galleries. Skipping those columns keeps
+// the serialized HTML + RSC flight payload lean, which matters a lot for
+// first-load speed on mobile connections.
+
+export type PublicProjectCard = Omit<PublicProject, "content" | "images">;
+
+export const getPublishedProjectCards = cache(async (): Promise<PublicProjectCard[]> => {
+  const rows = await db.project.findMany({
+    where: { isPublished: true },
+    orderBy: [{ isFeatured: "desc" }, { order: "asc" }, { completedAt: "desc" }],
+    select: {
+      id: true, title: true, slug: true, client: true, category: true, summary: true,
+      technologies: true, externalUrl: true, coverImage: true,
+      isFeatured: true, completedAt: true, order: true,
+    },
+  });
+  return rows.map((r) => ({ ...r, technologies: parseJsonArray(r.technologies) }));
+});
+
+export type PublicArticleCard = Omit<PublicArticle, "content">;
+
+export const getPublishedArticleCards = cache(
+  async (limit?: number): Promise<PublicArticleCard[]> => {
+    return db.newsArticle.findMany({
+      where: { isPublished: true, isArchived: false },
+      orderBy: { publishedAt: "desc" },
+      ...(limit ? { take: limit } : {}),
+      select: {
+        id: true, title: true, slug: true, excerpt: true, coverImage: true,
+        publishedAt: true,
+        category: { select: { id: true, name: true, slug: true } },
+      },
+    });
+  }
+);
+
 // ---------- News ----------
 
 export const getPublishedArticles = cache(async (limit?: number): Promise<PublicArticle[]> => {

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { NewsBrowser } from "@/components/site/news-browser";
-import { getPublishedArticles, getNewsCategories } from "@/lib/data/public";
+import { getPublishedArticleCards, getNewsCategories } from "@/lib/data/public";
 
 export const metadata: Metadata = {
   title: "News & Insights",
@@ -15,7 +15,7 @@ export const revalidate = 60;
 
 export default async function NewsPage() {
   const [articles, categories] = await Promise.all([
-    getPublishedArticles(),
+    getPublishedArticleCards(),
     getNewsCategories(),
   ]);
 
