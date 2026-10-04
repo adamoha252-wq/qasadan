@@ -57,10 +57,10 @@ export function Header() {
 
         {/* Desktop CTA */}
         <div className="hidden lg:block">
-          <Button asChild className="bg-navy-800 text-white hover:bg-navy-700">
+          <Button asChild className="btn-glow bg-navy-800 text-white hover:bg-navy-700">
             <a href="/contact" className="inline-flex items-center gap-2">
               Start a Project
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              <ArrowRight className="ab-icon-hover h-4 w-4" aria-hidden="true" />
             </a>
           </Button>
         </div>

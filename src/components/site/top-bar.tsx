@@ -16,7 +16,7 @@ export function TopBar() {
   ];
 
   return (
-    <div className="hidden bg-navy-900 text-navy-200 lg:block">
+    <div className="relative hidden bg-navy-900 text-navy-200 lg:block">
       <div className="container-site flex h-9 items-center justify-between text-xs">
         <div className="flex items-center gap-5">
           <a
@@ -55,11 +55,13 @@ export function TopBar() {
               aria-label={`QASADAN on ${name}`}
               className="flex h-6 w-6 items-center justify-center rounded text-navy-300 transition-colors hover:bg-navy-700 hover:text-cyan-300"
             >
-              <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+              <Icon className="ab-icon-hover h-3.5 w-3.5" aria-hidden="true" />
             </a>
           ))}
         </div>
       </div>
+      {/* Animated brand shimmer line along the bottom edge */}
+      <span aria-hidden="true" className="ab-line absolute inset-x-0 bottom-0 h-[2px]" />
     </div>
   );
 }

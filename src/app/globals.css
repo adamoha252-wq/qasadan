@@ -327,3 +327,186 @@
 .bg-light-band {
   background: linear-gradient(160deg, #F0F7FF 0%, #FFFFFF 55%, #F0F5FA 100%);
 }
+
+/* ============ ANIMATED BORDER SYSTEM (brand cyan / royal blue) ============ */
+/* Rotating gradient rings, pulsing icon halos, shimmer lines — applied site-wide */
+
+@property --ab-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes ab-rotate {
+  to { --ab-angle: 360deg; }
+}
+
+/* Base classes — the ring itself is only added where the mask trick is
+   supported, so unsupported browsers degrade to a normal card. */
+.ab-anim,
+.ab-card {
+  position: relative;
+}
+.ab-anim::after,
+.ab-card::after {
+  content: none;
+}
+
+@supports ((-webkit-mask-composite: xor) or (mask-composite: exclude)) {
+  /* Always-on rotating border — hero chips, featured pricing, CTA band,
+     section heading chips. */
+  .ab-anim::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: conic-gradient(
+      from var(--ab-angle),
+      rgba(6, 182, 212, 0) 0%,
+      #06b6d4 12%,
+      #0066cc 25%,
+      rgba(0, 102, 204, 0) 40%,
+      rgba(6, 182, 212, 0) 55%,
+      #22d3ee 72%,
+      rgba(34, 211, 238, 0) 88%,
+      rgba(6, 182, 212, 0) 100%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    animation: ab-rotate 5s linear infinite;
+    pointer-events: none;
+  }
+
+  /* Card ring — soft static gradient at rest, spins and brightens on hover.
+     Pair with the Tailwind `group` class on the same element. */
+  .ab-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: conic-gradient(
+      from var(--ab-angle),
+      rgba(6, 182, 212, 0) 0%,
+      rgba(6, 182, 212, 0.85) 15%,
+      rgba(0, 102, 204, 0.9) 30%,
+      rgba(6, 182, 212, 0) 48%,
+      rgba(6, 182, 212, 0) 60%,
+      rgba(34, 211, 238, 0.8) 78%,
+      rgba(6, 182, 212, 0) 95%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    animation: ab-rotate 4.5s linear infinite;
+    animation-play-state: paused;
+    opacity: 0.55;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+  .ab-card:hover::after {
+    animation-play-state: running;
+    opacity: 1;
+  }
+  /* Stagger resting ring positions so side-by-side cards differ */
+  .ab-card:nth-child(3n+1)::after { animation-delay: -1.2s; }
+  .ab-card:nth-child(3n+2)::after { animation-delay: -2.6s; }
+}
+
+/* Pulsing halo for icon badges (brand cyan) — also carries a soft drop shadow */
+@keyframes ab-icon-pulse {
+  0% {
+    box-shadow: 0 4px 14px -4px rgba(0, 102, 204, 0.4), 0 0 0 0 rgba(6, 182, 212, 0.4);
+  }
+  75% {
+    box-shadow: 0 4px 14px -4px rgba(0, 102, 204, 0.4), 0 0 0 9px rgba(6, 182, 212, 0);
+  }
+  100% {
+    box-shadow: 0 4px 14px -4px rgba(0, 102, 204, 0.4), 0 0 0 0 rgba(6, 182, 212, 0);
+  }
+}
+.ab-icon {
+  animation: ab-icon-pulse 2.8s ease-out infinite;
+}
+.ab-icon-delay {
+  animation-delay: 0.9s;
+}
+.ab-icon-delay-2 {
+  animation-delay: 1.8s;
+}
+
+/* Playful icon wiggle when its card is hovered (or the icon itself) */
+@keyframes ab-icon-wiggle {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  20% { transform: rotate(-9deg) scale(1.08); }
+  60% { transform: rotate(9deg) scale(1.08); }
+}
+.group:hover .ab-icon-hover,
+.ab-icon-hover:hover {
+  animation: ab-icon-wiggle 0.7s ease-in-out;
+}
+
+/* Breathing glow for primary CTAs (brand gradient shadow) */
+@keyframes ab-btn-glow {
+  0%, 100% { box-shadow: 0 8px 22px -8px rgba(0, 102, 204, 0.55); }
+  50% { box-shadow: 0 10px 30px -6px rgba(6, 182, 212, 0.75); }
+}
+.btn-glow {
+  animation: ab-btn-glow 3s ease-in-out infinite;
+}
+
+/* Shimmering gradient line — top bar edge, stats band, footer divider */
+.ab-line {
+  position: relative;
+  overflow: hidden;
+  background: rgba(6, 182, 212, 0.22);
+}
+.ab-line::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #06b6d4 30%,
+    #22d3ee 50%,
+    #0066cc 70%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: ab-line-sweep 4.5s ease-in-out infinite;
+}
+@keyframes ab-line-sweep {
+  0% { transform: translateX(-100%); }
+  55%, 100% { transform: translateX(100%); }
+}
+
+/* Animated gradient underline for section titles */
+.ab-title-line {
+  height: 3.5px;
+  width: 76px;
+  border-radius: 999px;
+  background: linear-gradient(110deg, #06b6d4 15%, #22d3ee 38%, #0066cc 62%, #06b6d4 85%);
+  background-size: 200% 100%;
+  animation: shimmer-sweep 2.8s linear infinite;
+}
+
+/* Reduced motion — freeze everything above */
+@media (prefers-reduced-motion: reduce) {
+  .ab-anim::after,
+  .ab-card::after,
+  .ab-icon,
+  .ab-icon-hover,
+  .btn-glow,
+  .ab-line::before,
+  .ab-title-line {
+    animation: none !important;
+  }
+  .ab-card::after {
+    opacity: 1;
+  }
+}

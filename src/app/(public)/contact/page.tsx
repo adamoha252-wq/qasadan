@@ -60,13 +60,13 @@ export default async function ContactPage() {
 
           {/* Info cards */}
           <aside className="flex flex-col gap-6" aria-label="Contact information">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+            <div className="ab-card group rounded-2xl border border-slate-200 bg-slate-50 p-6">
               <h2 className="font-heading text-base font-semibold text-navy-800">
                 Contact details
               </h2>
               <ul className="mt-5 flex flex-col gap-5">
                 <li className="flex items-start gap-3">
-                  <Mail className="mt-0.5 h-5 w-5 shrink-0 text-cyan-600" aria-hidden="true" />
+                  <Mail className="ab-icon-hover mt-0.5 h-5 w-5 shrink-0 text-cyan-600" aria-hidden="true" />
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Email</p>
                     <a
@@ -78,7 +78,7 @@ export default async function ContactPage() {
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Phone className="mt-0.5 h-5 w-5 shrink-0 text-cyan-600" aria-hidden="true" />
+                  <Phone className="ab-icon-hover mt-0.5 h-5 w-5 shrink-0 text-cyan-600" aria-hidden="true" />
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Phone</p>
                     <a
@@ -90,7 +90,7 @@ export default async function ContactPage() {
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Phone className="mt-0.5 h-5 w-5 shrink-0 text-cyan-600" aria-hidden="true" />
+                  <Phone className="ab-icon-hover mt-0.5 h-5 w-5 shrink-0 text-cyan-600" aria-hidden="true" />
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Phone (alt)</p>
                     <a
@@ -102,7 +102,7 @@ export default async function ContactPage() {
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
-                  <MessageCircle className="mt-0.5 h-5 w-5 shrink-0 text-[#25D366]" aria-hidden="true" />
+                  <MessageCircle className="ab-icon-hover mt-0.5 h-5 w-5 shrink-0 text-[#25D366]" aria-hidden="true" />
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">WhatsApp</p>
                     <a
@@ -116,14 +116,14 @@ export default async function ContactPage() {
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
-                  <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-cyan-600" aria-hidden="true" />
+                  <MapPin className="ab-icon-hover mt-0.5 h-5 w-5 shrink-0 text-cyan-600" aria-hidden="true" />
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Office</p>
                     <p className="text-sm font-medium text-navy-800">{address}</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Globe className="mt-0.5 h-5 w-5 shrink-0 text-cyan-600" aria-hidden="true" />
+                  <Globe className="ab-icon-hover mt-0.5 h-5 w-5 shrink-0 text-cyan-600" aria-hidden="true" />
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Service area</p>
                     <p className="text-sm font-medium text-navy-800">
@@ -134,9 +134,9 @@ export default async function ContactPage() {
               </ul>
             </div>
 
-            <div className="bg-pixel-grid rounded-2xl bg-navy-800 p-6">
+            <div className="ab-anim bg-pixel-grid rounded-2xl bg-navy-800 p-6">
               <div className="flex items-center gap-2 text-cyan-300">
-                <Clock className="h-4 w-4" aria-hidden="true" />
+                <Clock className="ab-icon-hover h-4 w-4" aria-hidden="true" />
                 <h2 className="text-xs font-semibold uppercase tracking-widest">
                   Response time
                 </h2>

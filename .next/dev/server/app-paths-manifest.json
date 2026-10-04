@@ -1,8 +1,10 @@
 {
+  "/(public)/about/page": "app/(public)/about/page.js",
   "/(public)/contact/page": "app/(public)/contact/page.js",
   "/(public)/news/page": "app/(public)/news/page.js",
   "/(public)/page": "app/(public)/page.js",
   "/(public)/portfolio/page": "app/(public)/portfolio/page.js",
   "/(public)/services/page": "app/(public)/services/page.js",
+  "/(public)/who-we-are/page": "app/(public)/who-we-are/page.js",
   "/admin/login/page": "app/admin/login/page.js"
 }

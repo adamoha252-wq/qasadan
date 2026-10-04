@@ -11,7 +11,7 @@ import type { PublicSiteStat } from "@/lib/data/public";
 export function Hero({ stats }: { stats: PublicSiteStat[] }) {
   return (
     <section
-      className="bg-hero-gradient relative flex min-h-[92vh] items-center overflow-hidden"
+      className="bg-hero-gradient relative flex min-h-[92vh] flex-col overflow-hidden"
       aria-labelledby="hero-heading"
     >
       {/* Decorative layers */}
@@ -37,8 +37,8 @@ export function Hero({ stats }: { stats: PublicSiteStat[] }) {
         {/* Copy column */}
         <div className="flex flex-col items-start gap-6">
           <Reveal>
-            <span className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-cyan-300">
-              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+            <span className="ab-anim inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-cyan-300">
+              <Sparkles className="ab-icon-hover h-3.5 w-3.5" aria-hidden="true" />
               East Africa&apos;s Digital Partner
             </span>
           </Reveal>
@@ -66,7 +66,7 @@ export function Hero({ stats }: { stats: PublicSiteStat[] }) {
               <Button
                 asChild
                 size="lg"
-                className="bg-brand-600 text-white shadow-lg shadow-brand-600/30 transition-all hover:-translate-y-0.5 hover:bg-brand-500"
+                className="btn-glow bg-brand-600 text-white transition-all hover:-translate-y-0.5 hover:bg-brand-500"
               >
                 <a href="/services" className="inline-flex items-center gap-2">
                   Explore Services
@@ -109,7 +109,7 @@ export function Hero({ stats }: { stats: PublicSiteStat[] }) {
                 <LogoMark className="h-72 w-72 text-white drop-shadow-2xl" />
               </div>
               {/* Orbiting badge chips */}
-              <div className="animate-float-slower absolute -right-4 top-6 flex items-center gap-2 rounded-2xl border border-cyan-400/30 bg-navy-900/80 px-4 py-3 backdrop-blur">
+              <div className="ab-anim animate-float-slower absolute -right-4 top-6 flex items-center gap-2 rounded-2xl border border-cyan-400/30 bg-navy-900/80 px-4 py-3 backdrop-blur">
                 <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-500/20 text-cyan-300">
                   <Globe className="h-5 w-5" />
                 </span>
@@ -118,7 +118,7 @@ export function Hero({ stats }: { stats: PublicSiteStat[] }) {
                   <p className="text-xs text-navy-300">End-to-end digital services</p>
                 </div>
               </div>
-              <div className="animate-float-slow absolute -left-6 bottom-8 flex items-center gap-2 rounded-2xl border border-brand-400/30 bg-navy-900/80 px-4 py-3 backdrop-blur [animation-delay:1.4s]">
+              <div className="ab-anim animate-float-slow absolute -left-6 bottom-8 flex items-center gap-2 rounded-2xl border border-brand-400/30 bg-navy-900/80 px-4 py-3 backdrop-blur [animation-delay:1.4s]">
                 <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-500/20 text-brand-300">
                   <Phone className="h-5 w-5" />
                 </span>
@@ -135,6 +135,7 @@ export function Hero({ stats }: { stats: PublicSiteStat[] }) {
       {/* Stats band (admin-editable via /admin/site-stats) */}
       {stats.length > 0 && (
         <div className="relative border-t border-white/10 bg-navy-950/40 backdrop-blur">
+          <span aria-hidden="true" className="ab-line absolute inset-x-0 top-0 h-[2px]" />
           <div className="container-site grid grid-cols-2 gap-6 py-8 sm:grid-cols-4">
             {stats.map((stat, i) => (
               <Reveal key={stat.id} delay={i * 100} className="text-center">

@@ -68,7 +68,7 @@ export function ContactForm() {
         role="status"
         className="flex flex-col items-center gap-4 rounded-2xl border border-cyan-200 bg-cyan-50 px-6 py-12 text-center"
       >
-        <CheckCircle2 className="h-12 w-12 text-cyan-600" aria-hidden="true" />
+        <CheckCircle2 className="ab-icon h-12 w-12 text-cyan-600" aria-hidden="true" />
         <div>
           <h3 className="font-heading text-lg font-semibold text-navy-800">Message sent!</h3>
           <p className="mt-1 max-w-md text-sm leading-relaxed text-slate-600">
@@ -196,7 +196,7 @@ export function ContactForm() {
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="self-start bg-navy-800 text-white hover:bg-navy-700"
+        className="btn-glow self-start bg-navy-800 text-white hover:bg-navy-700"
       >
         {isSubmitting ? (
           <>

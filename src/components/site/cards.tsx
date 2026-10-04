@@ -38,7 +38,7 @@ export function CoverPlaceholder({ label }: { label: string }) {
 
 export function ProjectCard({ project }: { project: PublicProject }) {
   return (
-    <Card className="group flex h-full flex-col overflow-hidden p-0 transition-shadow hover:shadow-lg">
+    <Card className="ab-card group flex h-full flex-col overflow-hidden p-0 transition-shadow hover:shadow-lg">
       <Link href={`/portfolio/${project.slug}`} className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500">
         {project.coverImage ? (
            
@@ -96,7 +96,7 @@ export function ProjectCard({ project }: { project: PublicProject }) {
 
 export function ArticleCard({ article }: { article: PublicArticle }) {
   return (
-    <Card className="group flex h-full flex-col overflow-hidden p-0 transition-shadow hover:shadow-lg">
+    <Card className="ab-card group flex h-full flex-col overflow-hidden p-0 transition-shadow hover:shadow-lg">
       <Link href={`/news/${article.slug}`} className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500">
         {article.coverImage ? (
            
@@ -158,8 +158,8 @@ export function ArticleCard({ article }: { article: PublicArticle }) {
 
 export function ServiceCard({ service }: { service: PublicService }) {
   return (
-    <Card className="flex h-full flex-col gap-4 p-6 transition-shadow hover:shadow-md">
-      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-50 text-cyan-600">
+    <Card className="ab-card group flex h-full flex-col gap-4 p-6 transition-shadow hover:shadow-md">
+      <div className="ab-icon ab-icon-hover flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-50 text-cyan-600">
         <ServiceIcon name={service.icon} className="h-6 w-6" />
       </div>
       <h3 className="font-heading text-xl font-semibold text-navy-800">{service.title}</h3>
@@ -189,19 +189,19 @@ export function TeamCard({ member }: { member: PublicTeamMember }) {
     .join("")
     .toUpperCase();
   return (
-    <Card className="flex h-full flex-col items-center gap-4 p-6 text-center transition-shadow hover:shadow-md">
+    <Card className="ab-card group flex h-full flex-col items-center gap-4 p-6 text-center transition-shadow hover:shadow-md">
       {member.imageUrl ? (
          
         <img
           src={member.imageUrl}
           alt={`Portrait of ${member.name}`}
-          className="h-24 w-24 rounded-full object-cover ring-4 ring-cyan-100"
+          className="ab-icon h-24 w-24 rounded-full object-cover ring-4 ring-cyan-100"
           loading="lazy"
         />
       ) : (
         <div
           aria-hidden="true"
-          className="flex h-24 w-24 items-center justify-center rounded-full bg-navy-800 font-heading text-2xl font-bold text-cyan-400 ring-4 ring-cyan-100"
+          className="ab-icon flex h-24 w-24 items-center justify-center rounded-full bg-navy-800 font-heading text-2xl font-bold text-cyan-400 ring-4 ring-cyan-100"
         >
           {initials}
         </div>
@@ -241,8 +241,8 @@ export function TeamCard({ member }: { member: PublicTeamMember }) {
 
 export function TestimonialCard({ testimonial }: { testimonial: PublicTestimonial }) {
   return (
-    <Card className="flex h-full flex-col gap-4 p-6">
-      <Quote className="h-6 w-6 text-cyan-500" aria-hidden="true" />
+    <Card className="ab-card group flex h-full flex-col gap-4 p-6">
+      <Quote className="ab-icon-hover h-6 w-6 text-cyan-500" aria-hidden="true" />
       <blockquote className="flex-1 text-sm leading-relaxed text-slate-700">
         “{testimonial.quote}”
       </blockquote>

@@ -41,7 +41,7 @@ export function PortfolioBrowser({ projects }: { projects: PublicProject[] }) {
                 className={cn(
                   "rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500",
                   !category
-                    ? "border-navy-800 bg-navy-800 text-white"
+                    ? "ab-anim border-navy-800 bg-navy-800 text-white"
                     : "border-slate-200 bg-white text-navy-700 hover:border-cyan-300 hover:text-cyan-700"
                 )}
               >
@@ -55,7 +55,7 @@ export function PortfolioBrowser({ projects }: { projects: PublicProject[] }) {
                   className={cn(
                     "rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500",
                     category === cat
-                      ? "border-navy-800 bg-navy-800 text-white"
+                      ? "ab-anim border-navy-800 bg-navy-800 text-white"
                       : "border-slate-200 bg-white text-navy-700 hover:border-cyan-300 hover:text-cyan-700"
                   )}
                 >

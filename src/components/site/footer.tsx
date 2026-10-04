@@ -130,6 +130,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-navy-700">
+        <span aria-hidden="true" className="ab-line block h-[2px] w-full" />
         <div className="container-site flex flex-col items-center justify-between gap-2 py-5 sm:flex-row">
           <p className="text-xs text-navy-300">
             © {year} {siteConfig.legalName}. All rights reserved.

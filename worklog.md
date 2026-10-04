@@ -59,3 +59,21 @@ Stage Summary:
 - NOT YET PUSHED - still awaiting user approval of the preview
 - Git state: .env untracked (security fix), next.config.ts modified (allowedDevOrigins + dev-conditional X-Frame-Options) - both will be part of the redesign push
 - WARNING for user: preview connects to the LIVE database, so admin edits in preview affect the live site within ~60s
+
+---
+Task ID: redesign-1c
+Agent: Super Z (main)
+Task: User approved redesign + requested: animated borders in brand colors with icons everywhere on the website
+
+Work Log:
+- Built animated border system in globals.css: @property --ab-angle + conic-gradient rotating rings (.ab-anim always-on, .ab-card hover-spin with paused resting state), pulsing icon halos (.ab-icon with stagger delays), icon wiggle (.ab-icon-hover), button breathing glow (.btn-glow), shimmer line (.ab-line), animated title underline (.ab-title-line); all wrapped in @supports mask-composite guard + prefers-reduced-motion kill switch
+- Applied everywhere: hero badge + floating cards + buttons + stats-band shimmer line; mission/value cards + chips; services dark cards + heading chip (Zap icon); team cards + portraits; join tile; pricing (featured card now has ROTATING border ring + Star in Most Popular badge; side cards hover rings); partners cards; contact cards + CTA band; SectionHeading (eyebrow chip + icon + animated underline => auto-propagates to all pages); cards.tsx ProjectCard/ArticleCard/ServiceCard/TeamCard/TestimonialCard (services, portfolio, news pages); active filter chips (portfolio + news browsers); contact form button + success icon + info cards; header CTA button; top-bar bottom shimmer line; footer divider + social icon wiggles
+- Fixed pre-existing hero layout BUG: section was flex ROW so the stats band rendered as a 792px sidebar block beside the hero content on desktop (190px on mobile, clipping SUPPORT & MAINTENANCE) instead of full-width bottom band. Fix: flex-col. Verified: desktop band 1440px full-width, mobile 390px + 2x2 grid, label 167px cell, 0 page overflow
+- Fixed a11y bug: SectionHeading now accepts id prop; passed mission/team/pricing/partners-heading so aria-labelledby resolves
+- Verification: all 7 public routes 200; tsc --noEmit clean; VLM visual QA passed on hero badge/floating cards, mission cards, team cards, pricing featured ring + badge zoom (star confirmed), services page, contact page, CTA band, mobile layout, stats bands desktop + mobile
+- Screenshots: download/preview/anim-01..19
+
+Stage Summary:
+- Animated border system live in preview, verified on desktop + mobile, no layout breakage
+- STILL NOT PUSHED - awaiting user approval of animated version in preview panel
+- After approval: production build (inline session-pooler DATABASE_URL) then git push; .env already untracked

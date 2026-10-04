@@ -284,7 +284,7 @@ function CoverPlaceholder({ label }) {
 }
 function ProjectCard({ project }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
-        className: "group flex h-full flex-col overflow-hidden p-0 transition-shadow hover:shadow-lg",
+        className: "ab-card group flex h-full flex-col overflow-hidden p-0 transition-shadow hover:shadow-lg",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                 href: `/portfolio/${project.slug}`,
@@ -434,7 +434,7 @@ function ProjectCard({ project }) {
 }
 function ArticleCard({ article }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
-        className: "group flex h-full flex-col overflow-hidden p-0 transition-shadow hover:shadow-lg",
+        className: "ab-card group flex h-full flex-col overflow-hidden p-0 transition-shadow hover:shadow-lg",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                 href: `/news/${article.slug}`,
@@ -579,10 +579,10 @@ function ArticleCard({ article }) {
 }
 function ServiceCard({ service }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
-        className: "flex h-full flex-col gap-4 p-6 transition-shadow hover:shadow-md",
+        className: "ab-card group flex h-full flex-col gap-4 p-6 transition-shadow hover:shadow-md",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-50 text-cyan-600",
+                className: "ab-icon ab-icon-hover flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-50 text-cyan-600",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$site$2f$icon$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ServiceIcon"], {
                     name: service.icon,
                     className: "h-6 w-6"
@@ -648,12 +648,12 @@ function ServiceCard({ service }) {
 function TeamCard({ member }) {
     const initials = member.name.split(" ").map((n)=>n[0]).slice(0, 2).join("").toUpperCase();
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
-        className: "flex h-full flex-col items-center gap-4 p-6 text-center transition-shadow hover:shadow-md",
+        className: "ab-card group flex h-full flex-col items-center gap-4 p-6 text-center transition-shadow hover:shadow-md",
         children: [
             member.imageUrl ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
                 src: member.imageUrl,
                 alt: `Portrait of ${member.name}`,
-                className: "h-24 w-24 rounded-full object-cover ring-4 ring-cyan-100",
+                className: "ab-icon h-24 w-24 rounded-full object-cover ring-4 ring-cyan-100",
                 loading: "lazy"
             }, void 0, false, {
                 fileName: "[project]/src/components/site/cards.tsx",
@@ -661,7 +661,7 @@ function TeamCard({ member }) {
                 columnNumber: 9
             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 "aria-hidden": "true",
-                className: "flex h-24 w-24 items-center justify-center rounded-full bg-navy-800 font-heading text-2xl font-bold text-cyan-400 ring-4 ring-cyan-100",
+                className: "ab-icon flex h-24 w-24 items-center justify-center rounded-full bg-navy-800 font-heading text-2xl font-bold text-cyan-400 ring-4 ring-cyan-100",
                 children: initials
             }, void 0, false, {
                 fileName: "[project]/src/components/site/cards.tsx",
@@ -740,10 +740,10 @@ function TeamCard({ member }) {
 }
 function TestimonialCard({ testimonial }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
-        className: "flex h-full flex-col gap-4 p-6",
+        className: "ab-card group flex h-full flex-col gap-4 p-6",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$quote$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Quote$3e$__["Quote"], {
-                className: "h-6 w-6 text-cyan-500",
+                className: "ab-icon-hover h-6 w-6 text-cyan-500",
                 "aria-hidden": "true"
             }, void 0, false, {
                 fileName: "[project]/src/components/site/cards.tsx",
@@ -949,7 +949,7 @@ function PortfolioBrowser({ projects }) {
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                             href: "/portfolio",
                             "aria-current": !category ? "true" : undefined,
-                            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])("rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500", !category ? "border-navy-800 bg-navy-800 text-white" : "border-slate-200 bg-white text-navy-700 hover:border-cyan-300 hover:text-cyan-700"),
+                            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])("rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500", !category ? "ab-anim border-navy-800 bg-navy-800 text-white" : "border-slate-200 bg-white text-navy-700 hover:border-cyan-300 hover:text-cyan-700"),
                             children: "All"
                         }, void 0, false, {
                             fileName: "[project]/src/components/site/portfolio-browser.tsx",
@@ -959,7 +959,7 @@ function PortfolioBrowser({ projects }) {
                         categories.map((cat)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                 href: `/portfolio?category=${encodeURIComponent(cat)}`,
                                 "aria-current": category === cat ? "true" : undefined,
-                                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])("rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500", category === cat ? "border-navy-800 bg-navy-800 text-white" : "border-slate-200 bg-white text-navy-700 hover:border-cyan-300 hover:text-cyan-700"),
+                                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])("rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500", category === cat ? "ab-anim border-navy-800 bg-navy-800 text-white" : "border-slate-200 bg-white text-navy-700 hover:border-cyan-300 hover:text-cyan-700"),
                                 children: cat
                             }, cat, false, {
                                 fileName: "[project]/src/components/site/portfolio-browser.tsx",

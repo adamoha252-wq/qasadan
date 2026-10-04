@@ -14,6 +14,8 @@ import {
   Phone,
   Mail,
   MapPin,
+  Zap,
+  Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -64,6 +66,7 @@ export function MissionValues() {
       <div className="container-site flex flex-col gap-12">
         <Reveal>
           <SectionHeading
+            id="mission-heading"
             align="center"
             eyebrow="Who We Are"
             title="Driving East Africa's digital future"
@@ -72,10 +75,14 @@ export function MissionValues() {
         </Reveal>
 
         <Reveal stagger className="grid gap-6 md:grid-cols-3">
-          {pillars.map((pillar) => (
-            <Card key={pillar.title} className="card-lift h-full border-navy-100 bg-white/80 backdrop-blur">
+          {pillars.map((pillar, i) => (
+            <Card key={pillar.title} className="card-lift group ab-card h-full border-navy-100 bg-white/80 backdrop-blur">
               <CardContent className="flex flex-col gap-4 p-8">
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-600 to-cyan-500 text-white shadow-lg shadow-brand-600/25">
+                <span
+                  className={`ab-icon ab-icon-hover flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-600 to-cyan-500 text-white ${
+                    i === 1 ? "ab-icon-delay" : i === 2 ? "ab-icon-delay-2" : ""
+                  }`}
+                >
                   <pillar.icon className="h-6 w-6" aria-hidden="true" />
                 </span>
                 <h3 className="font-heading text-xl font-semibold text-navy-800">
@@ -92,9 +99,9 @@ export function MissionValues() {
             {values.map((value) => (
               <span
                 key={value.label}
-                className="inline-flex items-center gap-2 rounded-full border border-brand-100 bg-white px-4 py-2 text-sm font-medium text-brand-700 shadow-sm transition-transform hover:scale-105"
+                className="inline-flex items-center gap-2 rounded-full border border-brand-100 bg-white px-4 py-2 text-sm font-medium text-brand-700 shadow-sm transition-all hover:scale-105 hover:border-cyan-300"
               >
-                <value.icon className="h-4 w-4 text-cyan-600" aria-hidden="true" />
+                <value.icon className="ab-icon-hover h-4 w-4 text-cyan-600" aria-hidden="true" />
                 {value.label}
               </span>
             ))}
@@ -128,17 +135,19 @@ export function ServicesDark({ services }: { services: PublicService[] }) {
       />
       <div className="container-site relative flex flex-col gap-12">
         <Reveal>
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-cyan-400">
+          <div className="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
+            <span className="ab-anim inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-cyan-300">
+              <Zap className="ab-icon-hover h-3.5 w-3.5" aria-hidden="true" />
               What We Do
             </span>
             <h2
               id="services-heading"
-              className="mt-3 font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl"
+              className="mt-1 font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl"
             >
               Comprehensive digital services
             </h2>
-            <p className="mt-4 text-base leading-relaxed text-navy-300">
+            <span aria-hidden="true" className="ab-title-line" />
+            <p className="text-base leading-relaxed text-navy-300">
               From your first landing page to complex enterprise platforms — everything
               you need to win online, delivered by one dedicated team.
             </p>
@@ -146,12 +155,16 @@ export function ServicesDark({ services }: { services: PublicService[] }) {
         </Reveal>
 
         <Reveal stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {services.slice(0, 6).map((service) => (
+          {services.slice(0, 6).map((service, i) => (
             <div
               key={service.id}
-              className="group flex h-full flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-400/40 hover:bg-white/[0.07] hover:shadow-2xl hover:shadow-cyan-500/10"
+              className="ab-card group flex h-full flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-400/40 hover:bg-white/[0.07] hover:shadow-2xl hover:shadow-cyan-500/10"
             >
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500/20 to-brand-600/20 text-cyan-300 ring-1 ring-cyan-400/30 transition-transform duration-300 group-hover:scale-110">
+              <span
+                className={`ab-icon ab-icon-hover flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500/20 to-brand-600/20 text-cyan-300 ring-1 ring-cyan-400/30 transition-transform duration-300 group-hover:scale-110 ${
+                  i % 3 === 1 ? "ab-icon-delay" : i % 3 === 2 ? "ab-icon-delay-2" : ""
+                }`}
+              >
                 <ServiceIcon name={service.icon} className="h-6 w-6" />
               </span>
               <h3 className="font-heading text-lg font-semibold text-white">
@@ -176,7 +189,7 @@ export function ServicesDark({ services }: { services: PublicService[] }) {
           <Button
             asChild
             size="lg"
-            className="bg-cyan-500 text-navy-900 shadow-lg shadow-cyan-500/25 transition-all hover:-translate-y-0.5 hover:bg-cyan-400"
+            className="btn-glow bg-cyan-500 text-navy-900 transition-all hover:-translate-y-0.5 hover:bg-cyan-400"
           >
             <Link href="/services" className="inline-flex items-center gap-2">
               Explore all services
@@ -199,6 +212,7 @@ export function TeamShowcase({ members }: { members: PublicTeamMember[] }) {
       <div className="container-site flex flex-col gap-12">
         <Reveal>
           <SectionHeading
+            id="team-heading"
             align="center"
             eyebrow="Our People"
             title="Meet the team behind QASADAN"
@@ -215,7 +229,7 @@ export function TeamShowcase({ members }: { members: PublicTeamMember[] }) {
               .join("")
               .toUpperCase();
             return (
-              <Card key={member.id} className="card-lift group relative h-full overflow-hidden">
+              <Card key={member.id} className="card-lift group ab-card relative h-full overflow-hidden">
                 <span
                   className="pointer-events-none absolute -right-2 -top-4 select-none font-heading text-7xl font-bold text-navy-50 transition-colors group-hover:text-cyan-100"
                   aria-hidden="true"
@@ -227,13 +241,13 @@ export function TeamShowcase({ members }: { members: PublicTeamMember[] }) {
                     <img
                       src={member.imageUrl}
                       alt={`Portrait of ${member.name}`}
-                      className="h-24 w-24 rounded-full object-cover ring-4 ring-cyan-100 transition-transform duration-300 group-hover:scale-105"
+                      className="ab-icon h-24 w-24 rounded-full object-cover ring-4 ring-cyan-100 transition-transform duration-300 group-hover:scale-105"
                       loading="lazy"
                     />
                   ) : (
                     <span
                       aria-hidden="true"
-                      className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-navy-800 to-brand-700 font-heading text-2xl font-bold text-cyan-400 ring-4 ring-cyan-100 transition-transform duration-300 group-hover:scale-105"
+                      className="ab-icon flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-navy-800 to-brand-700 font-heading text-2xl font-bold text-cyan-400 ring-4 ring-cyan-100 transition-transform duration-300 group-hover:scale-105"
                     >
                       {initials}
                     </span>
@@ -253,9 +267,9 @@ export function TeamShowcase({ members }: { members: PublicTeamMember[] }) {
           })}
 
           {/* Join CTA tile */}
-          <Card className="card-lift h-full border-dashed border-brand-200 bg-brand-50/50">
+          <Card className="card-lift group ab-card h-full border-dashed border-brand-200 bg-brand-50/50">
             <CardContent className="flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
-              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-brand-600 shadow">
+              <span className="ab-icon ab-icon-hover flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-brand-600">
                 <Handshake className="h-7 w-7" aria-hidden="true" />
               </span>
               <h3 className="font-heading text-lg font-semibold text-navy-800">
@@ -297,6 +311,7 @@ export function PricingSection({ plans }: { plans: PublicPricingPlan[] }) {
       <div className="container-site flex flex-col gap-12">
         <Reveal>
           <SectionHeading
+            id="pricing-heading"
             align="center"
             eyebrow="Our Pricing"
             title="Choose the plan that fits your business"
@@ -308,14 +323,15 @@ export function PricingSection({ plans }: { plans: PublicPricingPlan[] }) {
           {plans.map((plan, i) => (
             <Reveal key={plan.id} delay={i * 120} className="h-full">
               {plan.isFeatured ? (
-                <div className="relative h-full rounded-3xl bg-gradient-to-b from-brand-600 to-navy-800 p-[1.5px] shadow-2xl shadow-brand-600/25 lg:-mt-4 lg:mb-4">
-                  <span className="animate-shimmer absolute -top-3.5 left-1/2 z-10 -translate-x-1/2 rounded-full bg-gradient-to-r from-cyan-500 to-brand-600 px-4 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-lg">
+                <div className="ab-anim relative h-full rounded-3xl bg-gradient-to-b from-brand-600 to-navy-800 p-[1.5px] shadow-2xl shadow-brand-600/25 lg:-mt-4 lg:mb-4">
+                  <span className="animate-shimmer absolute -top-3.5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-gradient-to-r from-cyan-500 to-brand-600 px-4 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-lg">
+                    <Star className="h-3 w-3 fill-white" aria-hidden="true" />
                     Most Popular
                   </span>
                   <PricingPlanBody plan={plan} dark />
                 </div>
               ) : (
-                <div className="card-lift h-full rounded-3xl border border-navy-100 bg-white">
+                <div className="card-lift group ab-card h-full rounded-3xl border border-navy-100 bg-white">
                   <PricingPlanBody plan={plan} />
                 </div>
               )}
@@ -400,7 +416,7 @@ function PricingPlanBody({
         size="lg"
         className={
           plan.isFeatured
-            ? "w-full bg-cyan-500 text-navy-900 shadow-lg shadow-cyan-500/30 transition-all hover:-translate-y-0.5 hover:bg-cyan-400"
+            ? "btn-glow w-full bg-cyan-500 text-navy-900 transition-all hover:-translate-y-0.5 hover:bg-cyan-400"
             : "w-full border-brand-200 bg-white text-brand-700 hover:bg-brand-50"
         }
         variant={plan.isFeatured ? "default" : "outline"}
@@ -428,6 +444,7 @@ export function PartnersSection({ partners }: { partners: PublicPartner[] }) {
       <div className="container-site flex flex-col gap-12">
         <Reveal>
           <SectionHeading
+            id="partners-heading"
             align="center"
             eyebrow="Trusted By"
             title="Organizations that rely on QASADAN"
@@ -446,19 +463,19 @@ export function PartnersSection({ partners }: { partners: PublicPartner[] }) {
               .join("")
               .toUpperCase();
             return (
-              <Card key={partner.id} className="card-lift h-full">
+              <Card key={partner.id} className="card-lift group ab-card h-full">
                 <CardContent className="flex h-full flex-col items-center gap-3 p-6 text-center">
                   {partner.logoUrl ? (
                     <img
                       src={partner.logoUrl}
                       alt={`${partner.name} logo`}
-                      className="h-14 w-14 rounded-xl object-contain"
+                      className="ab-icon h-14 w-14 rounded-xl object-contain"
                       loading="lazy"
                     />
                   ) : (
                     <span
                       aria-hidden="true"
-                      className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-navy-800 to-brand-700 font-heading text-lg font-bold text-cyan-400"
+                      className="ab-icon flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-navy-800 to-brand-700 font-heading text-lg font-bold text-cyan-400"
                     >
                       {initials || "Q"}
                     </span>
@@ -541,13 +558,17 @@ export function ContactCTA() {
         </Reveal>
 
         <Reveal stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {cards.map((card) => (
+          {cards.map((card, i) => (
             <a
               key={card.title}
               href={card.href}
-              className="card-lift group flex flex-col items-center gap-2 rounded-2xl border border-navy-100 bg-white p-6 text-center"
+              className="card-lift group ab-card flex flex-col items-center gap-2 rounded-2xl border border-navy-100 bg-white p-6 text-center"
             >
-              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 transition-all group-hover:bg-brand-600 group-hover:text-white">
+              <span
+                className={`ab-icon ab-icon-hover flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-600 group-hover:text-white ${
+                  i % 2 === 1 ? "ab-icon-delay" : ""
+                }`}
+              >
                 <card.icon className="h-6 w-6" aria-hidden="true" />
               </span>
               <h3 className="font-heading text-base font-semibold text-navy-800">
@@ -560,7 +581,7 @@ export function ContactCTA() {
         </Reveal>
 
         <Reveal delay={150}>
-          <div className="bg-pixel-grid relative overflow-hidden rounded-3xl bg-gradient-to-br from-navy-900 via-navy-800 to-brand-800 px-6 py-14 text-center sm:px-12">
+          <div className="ab-anim bg-pixel-grid relative overflow-hidden rounded-3xl bg-gradient-to-br from-navy-900 via-navy-800 to-brand-800 px-6 py-14 text-center sm:px-12">
             <div
               className="animate-float-slow absolute -right-16 -top-16 h-64 w-64 rounded-full bg-cyan-500/15 blur-3xl"
               aria-hidden="true"
@@ -579,7 +600,7 @@ export function ContactCTA() {
               <Button
                 asChild
                 size="lg"
-                className="bg-cyan-500 text-navy-900 shadow-lg shadow-cyan-500/25 transition-all hover:-translate-y-0.5 hover:bg-cyan-400"
+                className="btn-glow bg-cyan-500 text-navy-900 transition-all hover:-translate-y-0.5 hover:bg-cyan-400"
               >
                 <Link href="/contact" className="inline-flex items-center gap-2">
                   Start a Project
@@ -590,9 +611,9 @@ export function ContactCTA() {
                 href={siteConfig.whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-12 items-center gap-2 rounded-xl bg-[#25D366] px-6 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 transition-all hover:-translate-y-0.5 hover:brightness-110"
+                className="btn-glow inline-flex h-12 items-center gap-2 rounded-xl bg-[#25D366] px-6 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:brightness-110"
               >
-                <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                <MessageCircle className="ab-icon-hover h-4 w-4" aria-hidden="true" />
                 Chat on WhatsApp
               </a>
             </div>
