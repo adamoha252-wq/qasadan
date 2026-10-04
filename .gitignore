@@ -1,2 +1,7 @@
 skills/
 node_modules/
+.env
+.env.local
+.env*.local
+dev.log
+server.log

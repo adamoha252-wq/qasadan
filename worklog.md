@@ -41,3 +41,21 @@ Stage Summary:
 - ALL code built and verified locally. NOT YET PUSHED — awaiting user approval of preview screenshots
 - Key files: prisma/schema.prisma, src/lib/site.ts, src/lib/data/public.ts, src/components/site/{reveal,hero,home-sections,top-bar,whatsapp-float}.tsx, src/app/(public)/page.tsx, src/app/admin/(protected)/{site-stats,pricing,partners}/page.tsx, src/app/api/admin/{site-stats,pricing,partners}/
 - Live DB changes already applied (new tables + seeds) — additive, no impact on current live site
+
+---
+Task ID: redesign-1b
+Agent: Super Z (main)
+Task: Get the redesign preview visible to the user in the Preview Panel (user reported "can't see the preview yet")
+
+Work Log:
+- Root cause chain (why preview was dead): (1) no server running on port 3000; (2) sandbox shell injects stale SQLite DATABASE_URL into process env, which overrides ALL .env files -> Prisma postgres client 500; (3) bun loads .env directly and shell env beats .env.local; (4) next.config.ts X-Frame-Options SAMEORIGIN would block the Preview Panel iframe (space-z.ai cross-origin)
+- Fixes: untracked .env from git (git rm --cached, added .env/.env*.local/dev.log/server.log to .gitignore); wrote real Supabase session-pooler + storage creds into .env; started dev server with inline env override (DATABASE_URL=... bun run dev); next.config.ts: added allowedDevOrigins ["*.space-z.ai"] + X-Frame-Options now dev-conditional (kept in production)
+- Verified: homepage 200 (renders 50+/40+/6+/24/7 stats, real phones +252/+212 in top bar, Most Popular pricing badge); /services /portfolio /news /contact /admin/login all 200; 0 errors in dev.log; VLM visual check of screenshot = clean, no layout issues
+- User's preview panel confirmed actively polling (cross-origin requests from preview-chat-42e1e1e9-7c15-40a7-b801-135ec7dfd2ff.space-z.ai in dev.log)
+- Preview gateway :81 now serves the app (was showing placeholder)
+
+Stage Summary:
+- Dev server LIVE on port 3000 connected to real Supabase DB; user can preview the full redesign (public pages + admin) in the Preview Panel / Open in New Tab
+- NOT YET PUSHED - still awaiting user approval of the preview
+- Git state: .env untracked (security fix), next.config.ts modified (allowedDevOrigins + dev-conditional X-Frame-Options) - both will be part of the redesign push
+- WARNING for user: preview connects to the LIVE database, so admin edits in preview affect the live site within ~60s
