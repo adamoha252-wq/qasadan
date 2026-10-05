@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Children, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -76,19 +76,20 @@ export function Reveal({
     >
       {stagger
         ? Array.isArray(children)
-          ? children.map((child, i) =>
-              child ? (
-                <div
-                  key={i}
-                  className={cn("reveal-item h-full", variantClass, visible && "is-visible")}
-                  style={{ "--reveal-delay": `${delay + i * staggerStep}ms` } as React.CSSProperties}
-                >
-                  {child}
-                </div>
-              ) : (
-                child
-              )
-            )
+          ? // Children.toArray FLATTENS nested arrays: JSX like
+            //   <Reveal stagger>{items.map(...)}<Card/></Reveal>
+            // passes children as [[...items], <Card/>] — without flattening,
+            // ALL mapped items would share a single wrapper div and stack
+            // inside one grid cell instead of each getting their own.
+            Children.toArray(children).map((child, i) => (
+              <div
+                key={i}
+                className={cn("reveal-item h-full", variantClass, visible && "is-visible")}
+                style={{ "--reveal-delay": `${delay + i * staggerStep}ms` } as React.CSSProperties}
+              >
+                {child}
+              </div>
+            ))
           : children
         : children}
     </Tag>

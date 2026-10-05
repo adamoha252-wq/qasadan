@@ -12,6 +12,8 @@ import {
   Users,
   MessageSquareQuote,
   Inbox,
+  ReceiptText,
+  CreditCard,
   Settings,
   LogOut,
   Menu,
@@ -45,6 +47,8 @@ export const adminNav = [
   { title: "Pricing Plans", href: "/admin/pricing", icon: BadgeDollarSign },
   { title: "Partners", href: "/admin/partners", icon: Handshake },
   { title: "Inquiries", href: "/admin/inquiries", icon: Inbox },
+  { title: "Invoices", href: "/admin/invoices", icon: ReceiptText },
+  { title: "Payments", href: "/admin/payments", icon: CreditCard },
   { title: "Settings", href: "/admin/settings", icon: Settings },
 ] as const;
 

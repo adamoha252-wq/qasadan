@@ -284,6 +284,20 @@ export const getPricingPlans = cache(async (): Promise<PublicPricingPlan[]> => {
   return rows.map((r) => ({ ...r, features: parseJsonArray(r.features) }));
 });
 
+/** Single ACTIVE plan by id — powers the public /checkout/<planId> page. */
+export const getActivePricingPlanById = cache(
+  async (id: string): Promise<PublicPricingPlan | null> => {
+    const row = await db.pricingPlan.findFirst({
+      where: { id, isActive: true },
+      select: {
+        id: true, name: true, tagline: true, price: true, period: true,
+        features: true, isFeatured: true, ctaLabel: true,
+      },
+    });
+    return row ? { ...row, features: parseJsonArray(row.features) } : null;
+  }
+);
+
 // ---------- Partners / clients (admin-editable) ----------
 
 export type PublicPartner = {

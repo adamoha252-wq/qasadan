@@ -24,6 +24,7 @@ import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
 import { ServiceIcon } from "@/components/site/icon";
 import { siteConfig } from "@/lib/site";
+import { planCheckoutHref } from "@/lib/payments/plan-checkout";
 import type {
   PublicService,
   PublicTeamMember,
@@ -421,7 +422,7 @@ function PricingPlanBody({
         }
         variant={plan.isFeatured ? "default" : "outline"}
       >
-        <Link href="/contact">{plan.ctaLabel}</Link>
+        <Link href={planCheckoutHref(plan)}>{plan.ctaLabel}</Link>
       </Button>
     </div>
   );

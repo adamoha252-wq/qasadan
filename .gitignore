@@ -8,3 +8,10 @@ server.log
 .next/
 tsconfig.tsbuildinfo
 fg*.log
+prisma/schema.sqlite.prisma
+db/
+download/
+upload/
+tool-results/
+storage/
+worklog.md

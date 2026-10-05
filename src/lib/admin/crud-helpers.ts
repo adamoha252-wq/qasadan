@@ -13,11 +13,18 @@ import { revalidatePublicSite } from "@/lib/revalidate";
  */
 export async function withAdmin(
   handler: () => Promise<NextResponse>,
-  opts?: { revalidate?: boolean }
+  opts?: { revalidate?: boolean; roles?: string[] }
 ): Promise<NextResponse> {
   const user = await requireAdmin();
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  // Optional role gate (e.g. payment settings are founder/ADMIN-only).
+  if (opts?.roles && opts.roles.length > 0 && !opts.roles.includes(user.role)) {
+    return NextResponse.json(
+      { error: "You do not have permission to perform this action." },
+      { status: 403 }
+    );
   }
   try {
     const response = await handler();

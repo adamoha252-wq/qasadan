@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiFetch } from "@/lib/admin/api";
 import { PageHeader, LoadingState, ErrorState } from "@/components/admin/ui-bits";
 import { Field, TextInput } from "@/components/admin/form-kit";
+import { SettingsTabs } from "@/components/admin/settings-tabs";
 
 type SettingsMap = Record<string, string>;
 
@@ -95,6 +96,8 @@ export default function AdminSettingsPage() {
           )}
         </Button>
       </PageHeader>
+
+      <SettingsTabs />
 
       <section className="rounded-2xl border border-slate-200 bg-white p-6" aria-labelledby="settings-contact">
         <h2 id="settings-contact" className="font-heading text-base font-semibold text-navy-800">

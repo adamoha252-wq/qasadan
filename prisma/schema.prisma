@@ -225,6 +225,95 @@ model Partner {
   @@index([isActive, order])
 }
 
+// ============ PAYMENTS (Phase 1: provider management) ============
+//
+// Credentials are stored as a single AES-256-GCM encrypted JSON blob
+// (see src/lib/payments/crypto.ts). Secrets NEVER leave the server —
+// API responses only expose masked values.
+
+model PaymentProvider {
+  id              String    @id @default(cuid())
+  code            String    @unique // matches registry code, e.g. "waafipay"
+  credentials     String    @default("") // encrypted JSON: { fieldKey: value }
+  isSandbox       Boolean   @default(true)
+  isActive        Boolean   @default(false) // admin toggle — gates the client checkout
+  methods         String    @default("[]") // JSON string[] of enabled payment method codes
+  currencies      String    @default("[]") // JSON string[] of enabled currency codes
+  lastTestedAt    DateTime?
+  lastTestOutcome String? // PASS | PARTIAL | FAIL
+  lastTestMsg     String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([code, isActive])
+}
+
+// ============ PAYMENTS (Phase 2: invoices) ============
+//
+// Invoices are created by the admin and paid by clients through a secure,
+// unguessable link: /pay/<token> — token is 192-bit random (base64url).
+// Status transitions are strictly controlled in src/lib/payments/invoices.ts
+// (PENDING → CANCELLED by admin; the payment flow drives the rest in Phase 4).
+
+model Invoice {
+  id             String    @id @default(cuid())
+  invoiceNumber  String    @unique // human-readable, e.g. INV-2026-0001
+  token          String    @unique // secret URL token of the client payment link
+  clientName     String
+  clientEmail    String? // optional — kept private, never shown on the public pay page
+  projectService String // what the invoice is for
+  description    String?
+  amount         Decimal   @db.Decimal(12, 2)
+  currency       String    @default("USD") // validated against supported provider currencies
+  dueDate        DateTime?
+  status         String    @default("PENDING") // PENDING | PROCESSING | PAID | FAILED | CANCELLED | EXPIRED | REFUNDED
+  paidAt         DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  payments       Payment[]
+
+  @@index([status, createdAt])
+  @@index([clientName])
+}
+
+// ============ PAYMENTS (Phase 3: client checkout — payment attempts) ============
+//
+// One row per checkout attempt started from the public /pay/<token> page.
+// Lifecycle: INITIATING → INITIATED (provider issued the hosted checkout URL)
+// → CALLBACK_SUCCESS | CALLBACK_FAILURE (provider callback received — content
+// is UNTRUSTED until verified) → SUCCEEDED | FAILED (verification, Phase 4).
+// referenceId is the merchant reference sent to the provider (WAAFI Pay
+// transactionInfo.referenceId) — unique per attempt, used to match callbacks.
+
+model Payment {
+  id            String    @id @default(cuid())
+  invoiceId     String
+  invoice       Invoice   @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  providerId    String    // snapshot — no FK: payment history must survive provider removal
+  providerCode  String    // e.g. "waafipay"
+  providerName  String    // display snapshot, e.g. "WAAFI Pay"
+  paymentMethod String    // e.g. MWALLET_ACCOUNT
+  amount        Decimal   @db.Decimal(12, 2)
+  currency      String
+  status        String    @default("INITIATING") // INITIATING | INITIATED | CALLBACK_SUCCESS | CALLBACK_FAILURE | SUCCEEDED | FAILED
+  referenceId   String    @unique // QSD-<invoiceNumber>-<hex8>
+  orderId       String? // provider order id (WAAFI params.orderId)
+  providerTxnId String? // provider transaction id — filled at verification (Phase 4)
+  hppUrl        String? // hosted checkout URL (contains no secrets — safe to store)
+  callbackData  String? // JSON snapshot of last provider callback (untrusted until verified)
+  failureReason String?
+  // Phase 4 (verification) — filled when the provider's transaction status
+  // is confirmed server-side (HPP_GETTRANINFO / signed webhook trigger):
+  payerAccount     String?   // provider-reported payer id (e.g. wallet number)
+  verifiedAt       DateTime? // when server-side verification confirmed it
+  verificationData String?   // JSON snapshot of the provider's verification response (capped)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([invoiceId, createdAt])
+  @@index([status, createdAt])
+}
+
 // ============ SITE SETTINGS ============
 
 model SiteSetting {
