@@ -31,7 +31,9 @@ const ANIMATED_SELECTOR = [
   ".animate-spin-slow", // decorative rings
   ".ab-phone-ring", // hero iPhone rotating frame border
   ".phone-glass", // hero iPhone screen glass sweep
-  ".phone-logo", // hero iPhone on-screen logo breathing
+  ".phone-logo", // hero iPhone on-screen logo lifecycle
+  ".phone-flip", // hero iPhone 3D left-right flip
+  ".phone-logo-escape", // hero iPhone logo flying out of the screen
 ].join(", ");
 
 export function AnimGovernor() {

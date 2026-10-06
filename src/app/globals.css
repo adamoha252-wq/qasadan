@@ -346,6 +346,13 @@
 .ab-card {
   position: relative;
 }
+/* Hero chips pair .ab-anim with Tailwind's .absolute — this unlayered
+   `position: relative` would silently beat the layered utility (the chips
+   collapsed into normal flow, stacked at the column bottom). Restore the
+   utility's intent for that combination. */
+.ab-anim.absolute {
+  position: absolute;
+}
 .ab-anim::after,
 .ab-card::after {
   content: none;
@@ -575,26 +582,102 @@
   pointer-events: none;
 }
 
-/* On-screen logo breathing — subtle scale + cyan aura */
-@keyframes phone-logo-breathe {
-  0%, 100% {
+/* On-screen logo lifecycle — synced (7.5s) with .phone-logo-escape below:
+   breathes → charges up → departs with the escaping twin → rematerializes. */
+@keyframes phone-logo-cycle {
+  0%, 34% {
     transform: scale(1);
+    opacity: 1;
     filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.35));
   }
-  50% {
-    transform: scale(1.06);
-    filter: drop-shadow(0 0 24px rgba(34, 211, 238, 0.6));
+  17% {
+    transform: scale(1.05);
+  }
+  42% {
+    transform: scale(1.12);
+    opacity: 1;
+    filter: drop-shadow(0 0 26px rgba(34, 211, 238, 0.75));
+  }
+  48% {
+    transform: scale(1.2);
+    opacity: 1;
+    filter: drop-shadow(0 0 32px rgba(34, 211, 238, 0.9));
+  }
+  55% {
+    transform: scale(0.5);
+    opacity: 0;
+    filter: drop-shadow(0 0 18px rgba(34, 211, 238, 0.4));
+  }
+  76% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  88%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.35));
   }
 }
 .phone-logo {
-  animation: phone-logo-breathe 4.5s ease-in-out infinite;
+  animation: phone-logo-cycle 7.5s ease-in-out infinite;
+}
+
+/* 3D flip — the device turns left↔right like a floating object (the parent
+   float wrapper carries `perspective`). Ring, screen and glass sweep rotate
+   with the body; the escaping logo is a sibling, so it flies undisturbed. */
+@keyframes phone-flip {
+  0%, 100% {
+    transform: rotateY(-24deg) rotateX(5deg);
+  }
+  50% {
+    transform: rotateY(16deg) rotateX(5deg);
+  }
+}
+.phone-flip {
+  animation: phone-flip 7s ease-in-out infinite;
+}
+
+/* Escaping logo — twin of the screen logo rendered OUTSIDE the clipped
+   screen: materializes over it (crossfade), arcs up-left out of the device
+   toward the big Q mark while growing + glowing, then fades. Static state
+   is invisible, so reduced-motion users simply never see it. */
+@keyframes phone-logo-escape {
+  0%, 48% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.85);
+    filter: drop-shadow(0 0 0 rgba(34, 211, 238, 0));
+  }
+  52% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.02);
+    filter: drop-shadow(0 0 18px rgba(34, 211, 238, 0.85));
+  }
+  68% {
+    opacity: 1;
+  }
+  84%, 100% {
+    opacity: 0;
+    transform: translate(calc(-50% - 4.25rem), calc(-50% - 8.75rem)) scale(1.75);
+    filter: drop-shadow(0 0 28px rgba(34, 211, 238, 0.5));
+  }
+}
+.phone-logo-escape {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  z-index: 30;
+  opacity: 0;
+  animation: phone-logo-escape 7.5s ease-in-out infinite;
+  pointer-events: none;
 }
 
 /* Reduced motion — freeze the phone decorations (matches the blocks above) */
 @media (prefers-reduced-motion: reduce) {
   .ab-phone-ring::after,
   .phone-glass,
-  .phone-logo {
+  .phone-logo,
+  .phone-flip,
+  .phone-logo-escape {
     animation: none !important;
   }
 }
