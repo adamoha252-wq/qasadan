@@ -29,6 +29,9 @@ const ANIMATED_SELECTOR = [
   ".animate-float-slower",
   ".animate-marquee", // partner strip
   ".animate-spin-slow", // decorative rings
+  ".ab-phone-ring", // hero iPhone rotating frame border
+  ".phone-glass", // hero iPhone screen glass sweep
+  ".phone-logo", // hero iPhone on-screen logo breathing
 ].join(", ");
 
 export function AnimGovernor() {

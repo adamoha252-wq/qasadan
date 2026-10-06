@@ -108,6 +108,52 @@ export function Hero({ stats }: { stats: PublicSiteStat[] }) {
               <div className="animate-float-slow flex items-center justify-center">
                 <LogoMark className="h-72 w-72 text-white drop-shadow-2xl" />
               </div>
+              {/* iPhone mockup — floats at the top right, next to the Q mark.
+                  Decorative only: purely visual, pointer-events disabled. */}
+              <div className="pointer-events-none absolute -top-14 -right-[3rem] w-[11rem] rotate-[4deg] select-none xl:-right-[5rem] xl:w-[13rem]">
+                <div className="animate-float-slow relative">
+                  {/* Ambient glow behind the device */}
+                  <div className="absolute -inset-8 rounded-[4rem] bg-[radial-gradient(closest-side,rgba(6,182,212,0.32),rgba(0,102,204,0.14)_58%,transparent_80%)] blur-2xl" />
+                  {/* Device body — the rotating brand ring (.ab-phone-ring) hugs this frame */}
+                  <div className="ab-phone-ring relative h-[22rem] w-full rounded-[2.9rem] bg-slate-950 shadow-[0_36px_70px_-18px_rgba(2,8,20,0.65)] xl:h-[26rem]">
+                    {/* Titanium rim */}
+                    <div className="absolute inset-[3px] rounded-[2.65rem] bg-gradient-to-b from-slate-400 via-slate-700 to-slate-500" />
+                    {/* Screen assembly */}
+                    <div className="absolute inset-[5px] overflow-hidden rounded-[2.55rem] bg-navy-950 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.07),inset_0_0_24px_rgba(0,0,0,0.45)]">
+                      {/* Dynamic island */}
+                      <div className="absolute left-1/2 top-[9px] z-20 h-[17px] w-14 -translate-x-1/2 rounded-full bg-black" />
+                      {/* Screen canvas — brand boot screen */}
+                      <div className="bg-hero-gradient relative flex h-full w-full flex-col items-center justify-center gap-4">
+                        <div className="bg-pixel-grid absolute inset-0" />
+                        <div className="phone-logo relative">
+                          <LogoMark className="h-24 w-24 text-white" />
+                        </div>
+                        <div className="relative text-center">
+                          <p className="font-heading text-[1.3rem] font-bold tracking-tight text-white">
+                            QASADAN
+                          </p>
+                          <p className="mt-1.5 text-[7px] font-semibold uppercase tracking-[0.3em] text-cyan-400">
+                            Web Development Agency
+                          </p>
+                        </div>
+                        {/* Home indicator */}
+                        <div className="absolute bottom-2.5 left-1/2 h-[4px] w-24 -translate-x-1/2 rounded-full bg-white/70" />
+                      </div>
+                      {/* Glass reflection sweep */}
+                      <div className="phone-glass" />
+                    </div>
+                    {/* Side buttons */}
+                    <div className="absolute -left-[2.5px] top-[4.2rem] h-6 w-[3px] rounded-l-[2px] bg-slate-500" />
+                    <div className="absolute -left-[2.5px] top-[6.5rem] h-11 w-[3px] rounded-l-[2px] bg-slate-500" />
+                    <div className="absolute -left-[2.5px] top-[9.3rem] h-11 w-[3px] rounded-l-[2px] bg-slate-500" />
+                    <div className="absolute -right-[2.5px] top-[6.8rem] h-14 w-[3px] rounded-r-[2px] bg-slate-500" />
+                  </div>
+                  {/* Pixel sparks breaking away (echoes the logo's pixel motif) */}
+                  <div className="animate-float-slower absolute -right-3 top-10 h-2.5 w-2.5 rotate-12 rounded-[3px] bg-cyan-400/90" />
+                  <div className="animate-float-slow absolute -left-4 bottom-14 h-2 w-2 -rotate-12 rounded-[2px] bg-brand-400/80 [animation-delay:1.2s]" />
+                  <div className="animate-float-slower absolute -right-4 bottom-24 h-3 w-3 rotate-45 rounded-[3px] bg-cyan-300/70 [animation-delay:0.6s]" />
+                </div>
+              </div>
               {/* Orbiting badge chips */}
               <div className="ab-anim animate-float-slower absolute -right-4 top-6 flex items-center gap-2 rounded-2xl border border-cyan-400/30 bg-navy-900/80 px-4 py-3 backdrop-blur">
                 <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-500/20 text-cyan-300">
